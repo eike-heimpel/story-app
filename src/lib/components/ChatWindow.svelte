@@ -17,7 +17,7 @@
 </div>
 
 <button
-  class="bg-secondary-color text-white m-2"
+  class="bg-secondary-color text-white my-2"
   on:click={() => {
     $messages = [];
   }}

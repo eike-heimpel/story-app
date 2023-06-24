@@ -62,4 +62,8 @@
   button {
     @apply text-white;
   }
+
+  button:hover {
+    @apply text-black;
+  }
 </style>

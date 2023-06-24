@@ -50,4 +50,5 @@ button[type="button"] {
 
 button:hover {
     background-color: #e3c711;
+    @apply text-black;
 }
