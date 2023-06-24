@@ -16,6 +16,14 @@
   {/each}
 </div>
 
+<button
+  class="bg-secondary-color text-white m-2"
+  on:click={() => {
+    $messages = [];
+  }}
+  >Clear Chat
+</button>
+
 <div class="input">
   <form on:submit={handleSubmit}>
     <textarea class="bg-secondary-color text-white text-xl rounded p-2 w-full" rows="3" bind:value={$input} />
