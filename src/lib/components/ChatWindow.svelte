@@ -1,0 +1,81 @@
+<script lang="ts">
+  import { useChat } from "ai/svelte";
+  const { handleSubmit, messages, input } = useChat();
+
+  export let generationSite = "";
+  export let context: string = "";
+  export let history = false;
+</script>
+
+<h2 class="text-center mb-6 text-4xl">Work on Your Story</h2>
+<div class="chat-containe">
+  {#each $messages as message}
+    <div class="chat-bubble {message.role}">
+      <p>{message.content}</p>
+    </div>
+  {/each}
+</div>
+
+<div class="input">
+  <form on:submit={handleSubmit}>
+    <textarea class="bg-secondary-color text-white text-xl rounded p-2 w-full" rows="3" bind:value={$input} />
+    <button type="submit" disabled={$input === ""}>Send</button>
+  </form>
+</div>
+
+<style>
+  .input {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  @keyframes dot {
+    0%,
+    20% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .dot {
+    background: #333;
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    margin: 0 5px;
+    animation: dot 1.4s infinite;
+  }
+
+  .dot:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .dot:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  .user,
+  .assistant {
+    @apply bg-white text-black my-2 max-w-md rounded p-2;
+  }
+  .user {
+    @apply ml-2 mr-auto;
+  }
+
+  .assistant {
+    @apply mr-2 ml-auto;
+  }
+</style>

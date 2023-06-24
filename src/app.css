@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --dominant-color: #121010;
+    --secondary-color: #40494cc7;
+    --accent-color: #ecdb6c;
+    /* This is a yellow color */
+    --font-size: 14px;
+    background: var(--dominant-color);
+    font-size: var(--font-size);
+    @apply text-white
+}
+
+body {
+    @apply bg-dominant-color p-3;
+}
+
+h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    margin-top: 10px;
+
+}
+
+button {
+    @apply bg-accent-color;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button[type="submit"],
+button[type="button"] {
+    @apply bg-accent-color;
+}
+
+button:hover {
+    background-color: #e3c711;
+}

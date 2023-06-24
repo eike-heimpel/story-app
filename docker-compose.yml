@@ -1,0 +1,17 @@
+version: "3.0"
+services:
+
+  story-website:
+    build: .
+    ports:
+      - "9021:3000"
+    restart: unless-stopped
+
+  pocketbase:
+    build: ./pocketbase-linux
+    volumes:
+      - ./pocketbase-linux/pb_data:/pb_data
+      - ./pocketbase-linux/pb_migrations:/pb_migrations
+    ports:
+      - "8090:8090"
+    restart: unless-stopped

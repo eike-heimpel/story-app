@@ -1,0 +1,48 @@
+<script lang="ts">
+  import CollectionCard from "$lib/components/collection_list/CollectionCard.svelte";
+  import { pb } from "$lib/store";
+  import type PocketBase from "pocketbase";
+  import { onMount } from "svelte";
+  import ContextButtons from "$lib/components/ContextButtons.svelte";
+
+  export let collectionParams;
+
+  let collection = [];
+  let selectAll = "";
+  let isLoading = false;
+  const handleButtonClick = (event) => {
+    selectAll = event.detail.descriptionType;
+  };
+
+  const loadContext = async (pb: PocketBase) => {
+    collection = await pb.collection(collectionParams.collectionName).getFullList({
+      sort: "-created",
+    });
+    isLoading = false;
+  };
+
+  onMount(async () => {
+    isLoading = true;
+    if (!$pb) {
+      const checkInterval = setInterval(() => {
+        if ($pb) {
+          clearInterval(checkInterval);
+          loadContext($pb);
+        }
+      }, 1000);
+    } else {
+      loadContext($pb);
+    }
+  });
+</script>
+
+<div>
+  <h2 class="text-center text-4xl my-6">{collectionParams.collectionName}</h2>
+  <ContextButtons on:buttonClick={handleButtonClick} selectedButton={selectAll} flexCol={false} />
+
+  <div class="space-y-6">
+    {#each collection as collectionEntry}
+      <CollectionCard {collectionEntry} {collectionParams} {selectAll} />
+    {/each}
+  </div>
+</div>
