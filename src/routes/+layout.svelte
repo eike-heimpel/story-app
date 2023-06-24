@@ -1,13 +1,12 @@
 <script lang="ts">
   import "../app.css";
-  import { pb, websocket } from "$lib/store";
+  import { pb } from "$lib/store";
   import { setContext, onMount, onDestroy } from "svelte";
   import PocketBase from "pocketbase";
   import { page } from "$app/stores";
 
   let selected = "";
   const navItems = ["characters", "plot", "core-info", "summary", "testing"];
-  let websocketURL = "ws://localhost:9020/ws/llm-chat/client_id";
   let retryInterval;
 
   const routeName = $page.route.id.replace("/", "");
@@ -16,8 +15,6 @@
   }
 
   onMount(async () => {
-    createWebSocket();
-
     $pb = new PocketBase("http://127.0.0.1:8090"); // replace with your Pocketbase server URL
     await $pb.admins.authWithPassword("test@test.com", "testtesttest");
   });
@@ -27,25 +24,6 @@
       clearInterval(retryInterval);
     }
   });
-
-  function createWebSocket() {
-    $websocket = new WebSocket(websocketURL);
-
-    $websocket.onmessage = (event) => {
-      const message = JSON.parse(event.data);
-      console.log("Received message:", message);
-      // TODO: do something with the received message
-    };
-
-    $websocket.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
-
-    $websocket.onclose = (event) => {
-      console.log("WebSocket closed:", event);
-      retryInterval = setInterval(createWebSocket, 5000); // try to reconnect every 5 seconds
-    };
-  }
 
   const handleClick = (item) => () => {
     selected = item;

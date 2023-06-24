@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { websocket } from "$lib/store";
   import SaveResponseButton from "$lib/components/SaveResponseButton.svelte";
   import { chatHistory } from "$lib/store";
   import { useChat } from "ai/svelte";
