@@ -14,11 +14,12 @@
     selectAll = event.detail.descriptionType;
   };
 
-  const loadContext = async (pb: PocketBase) => {
-    collection = await pb.collection(collectionParams.collectionName).getFullList({
+  const loadContext = async () => {
+    collection = await $pb.collection(collectionParams.collectionName).getFullList({
       sort: "-created",
     });
     isLoading = false;
+    console.log(collection);
   };
 
   onMount(async () => {
@@ -27,11 +28,11 @@
       const checkInterval = setInterval(() => {
         if ($pb) {
           clearInterval(checkInterval);
-          loadContext($pb);
+          loadContext();
         }
       }, 1000);
     } else {
-      loadContext($pb);
+      loadContext();
     }
   });
 </script>
