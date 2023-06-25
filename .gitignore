@@ -13,6 +13,9 @@ testing
 ./testing
 testing/
 /testing
-/pocketbase
 /faiss-backend
 faiss-backend
+/pocketbase
+pocketbase
+pocketbase-linux
+/pocketbase-linux

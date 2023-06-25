@@ -4,7 +4,11 @@ COPY package.json package.json
 
 RUN npm install
 
-COPY /build . 
+COPY . .
+
+RUN npm run build
+
+WORKDIR /build
 
 EXPOSE 3000
 CMD [ "node", "index.js" ]

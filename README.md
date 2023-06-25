@@ -1,5 +1,13 @@
 # Story Creation App
 
+`cd pocketbase`
+`./pocketbase serve`
+
+--> separate terminal window, from inside the root story-app folder
+
+`npm run dev`
+
+--> localhost:5173 (usually, check npm run dev output)
 ## Introduction
 Welcome to the Story Creation App, a tool designed to help you in your creative writing process, whether for short stories, novels, movie scripts, or more. Our platform dynamically caters to your unique writing approach, facilitating as much or as little involvement as you prefer.
 
