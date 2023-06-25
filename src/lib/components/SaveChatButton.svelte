@@ -3,7 +3,7 @@
   import { pb } from "$lib/store";
 
   export let infoToSave = {};
-  export let collectionName = "responses";
+  export let collectionName = "previous_chats";
 
   let saveStatus = "";
   let showNotification = false;
@@ -16,7 +16,7 @@
     console.log(collectionName);
     console.log(infoToSave);
     try {
-      const result = await $pb?.collection(collectionName).create(infoToSave);
+      const result = await $pb?.collection(collectionName).create({ messages: JSON.stringify(infoToSave) });
       console.log("Saved successfully:", result);
       saveStatus = "Saved successfully";
     } catch (error) {

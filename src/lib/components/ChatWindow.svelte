@@ -1,5 +1,5 @@
 <script lang="ts">
-  import SaveResponseButton from "$lib/components/SaveResponseButton.svelte";
+  import SaveChatButton from "$lib/components/SaveChatButton.svelte";
   import { useChat } from "ai/svelte";
   const { handleSubmit, messages, input } = useChat();
 
@@ -25,7 +25,7 @@
     }}
     >Clear Chat
   </button>
-  <SaveResponseButton />
+  <SaveChatButton infoToSave={{ messages: $messages }} />
 </div>
 
 <div class="input">
