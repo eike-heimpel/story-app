@@ -2,6 +2,7 @@
   import ChatWindow from "$lib/components/ChatWindow.svelte";
   import ExampleChat from "$lib/components/ExampleChat.svelte";
   import CollectionList from "$lib/components/CollectionList.svelte";
+  import type { CharactersRecord } from "$lib/pocketbase-types";
 
   // simply add to this list and the full collectionlist with a card for each entry will be shown.
   const collections = [

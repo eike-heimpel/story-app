@@ -1,6 +1,5 @@
 <script>
   import { fly, fade } from "svelte/transition";
-  import { getContext, onMount } from "svelte";
   import { pb } from "$lib/store";
 
   export let infoToSave = {};

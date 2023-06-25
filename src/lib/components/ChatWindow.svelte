@@ -1,4 +1,5 @@
 <script lang="ts">
+  import SaveResponseButton from "$lib/components/SaveResponseButton.svelte";
   import { useChat } from "ai/svelte";
   const { handleSubmit, messages, input } = useChat();
 
@@ -16,13 +17,16 @@
   {/each}
 </div>
 
-<button
-  class="bg-secondary-color text-white my-2"
-  on:click={() => {
-    $messages = [];
-  }}
-  >Clear Chat
-</button>
+<div class="chat-utility flex justify-between my-2">
+  <button
+    class="bg-secondary-color text-white"
+    on:click={() => {
+      $messages = [];
+    }}
+    >Clear Chat
+  </button>
+  <SaveResponseButton />
+</div>
 
 <div class="input">
   <form on:submit={handleSubmit}>
