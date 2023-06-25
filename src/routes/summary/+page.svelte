@@ -2,6 +2,7 @@
   import ChatWindow from "$lib/components/ChatWindow.svelte";
   import CollectionList from "$lib/components/CollectionList.svelte";
   import { collections } from "$lib/store";
+  console.log("party");
 </script>
 
 <div class="generation mx-4 md:mx-8 lg:mx-16">
