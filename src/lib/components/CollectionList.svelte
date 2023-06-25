@@ -2,7 +2,6 @@
   import CollectionCard from "$lib/components/collection_list/CollectionCard.svelte";
   import { pb, type CollectionParam, type CollectionDataUnion } from "$lib/store";
   import type { Collections } from "$lib/pocketbase-types";
-  import type PocketBase from "pocketbase";
   import { onMount } from "svelte";
   import ContextButtons from "$lib/components/ContextButtons.svelte";
 
