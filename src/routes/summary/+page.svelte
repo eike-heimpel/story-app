@@ -1,14 +1,7 @@
 <script lang="ts">
   import ChatWindow from "$lib/components/ChatWindow.svelte";
-  import ExampleChat from "$lib/components/ExampleChat.svelte";
   import CollectionList from "$lib/components/CollectionList.svelte";
-  import type { CharactersRecord } from "$lib/pocketbase-types";
-
-  // simply add to this list and the full collectionlist with a card for each entry will be shown.
-  const collections = [
-    { collectionName: "characters", headlineFields: ["name", "age"], infoField: "one_line_description" },
-    { collectionName: "plots", headlineFields: ["name"], infoField: "one_line_description" },
-  ];
+  import { collections } from "$lib/store";
 </script>
 
 <div class="generation mx-4 md:mx-8 lg:mx-16">

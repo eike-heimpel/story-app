@@ -32,3 +32,8 @@ To start working on this project, follow the steps below:
 8. Create an admin user with the email test@test.com and pw: testtesttest. This is used for test auth when saving to the DB
 
 This will open the application in your default web browser. Happy coding!
+
+
+## Notes
+
+- [Pocketbase type exports](https://github.com/patmood/pocketbase-typegen) this script generates a file with ts types from the pocketbase DB, very useful!

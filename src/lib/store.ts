@@ -1,6 +1,37 @@
 import type { Writable } from "svelte/store";
 import {writable} from "svelte/store";
 import type PocketBase from "pocketbase";
+import type { CollectionRecords, CharactersResponse, PlotsResponse, CollectionResponses } from "$lib/pocketbase-types";
+import  {Collections} from "$lib/pocketbase-types";
+
+export const collectionResponseMap: Record<Collections, keyof CollectionResponses> = {
+  [Collections.Characters]: 'characters',
+  [Collections.Plots]: 'plots',
+  [Collections.Responses]: 'responses',
+  [Collections.Users]: 'users',
+};
+
+export type CollectionDataUnion = CharactersResponse | PlotsResponse; // add new responses as they come along
+
+export type CollectionParam<T extends Collections> = {
+    collectionName: T,
+    headlineFields: (keyof CollectionRecords[T])[],
+    infoField: keyof CollectionRecords[T],
+
+};
+
+export const collections: (CollectionParam<Collections.Characters> | CollectionParam<Collections.Plots>)[] = [
+  {
+      collectionName: Collections.Characters,
+      headlineFields: ["name", "age"],
+      infoField: "one_line_description"
+  },
+  {
+      collectionName: Collections.Plots,
+      headlineFields: ["name"],
+      infoField: "one_line_description"
+  },
+];
 
 export const websocket: Writable<WebSocket | null> = writable(null);
 export const pb: Writable<PocketBase | null> = writable(null);

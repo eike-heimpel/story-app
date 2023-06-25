@@ -1,13 +1,14 @@
 <script lang="ts">
   import CollectionCard from "$lib/components/collection_list/CollectionCard.svelte";
-  import { pb } from "$lib/store";
+  import { pb, type CollectionParam, type CollectionDataUnion } from "$lib/store";
+  import type { Collections } from "$lib/pocketbase-types";
   import type PocketBase from "pocketbase";
   import { onMount } from "svelte";
   import ContextButtons from "$lib/components/ContextButtons.svelte";
 
-  export let collectionParams;
+  export let collectionParams: CollectionParam<Collections>;
 
-  let collection = [];
+  let collectionData: CollectionDataUnion[] = [];
   let selectAll = "";
   let isLoading = false;
   const handleButtonClick = (event) => {
@@ -15,11 +16,10 @@
   };
 
   const loadContext = async () => {
-    collection = await $pb.collection(collectionParams.collectionName).getFullList({
+    collectionData = (await $pb.collection(collectionParams.collectionName).getFullList({
       sort: "-created",
-    });
+    })) as CollectionDataUnion[];
     isLoading = false;
-    console.log(collection);
   };
 
   onMount(async () => {
@@ -42,7 +42,7 @@
   <ContextButtons on:buttonClick={handleButtonClick} selectedButton={selectAll} flexCol={false} />
 
   <div class="space-y-6">
-    {#each collection as collectionEntry}
+    {#each collectionData as collectionEntry}
       <CollectionCard {collectionEntry} {collectionParams} {selectAll} />
     {/each}
   </div>

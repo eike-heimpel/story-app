@@ -1,16 +1,20 @@
 <script lang="ts">
-  import { selectedContextInfo } from "$lib/store";
+  import { selectedContextInfo, type CollectionDataUnion, type CollectionParam } from "$lib/store";
+  import type { Collections } from "$lib/pocketbase-types";
   import ContextButtons from "$lib/components/ContextButtons.svelte";
 
-  export let collectionEntry;
-  export let collectionParams;
+  export let collectionEntry: CollectionDataUnion;
+  export let collectionParams: CollectionParam<Collections>;
   export let selectAll = "";
 
-  let selectedButton = null;
-  const handleButtonClick = (event) => {
+  let selectedButton: keyof CollectionDataUnion | null = null;
+  const handleButtonClick = (event: any) => {
     selectedButton = event.detail.descriptionType;
-    const selectedContext = collectionEntry[selectedButton];
-    $selectedContextInfo[collectionParams.collectionName][collectionEntry.id] = selectedContext;
+
+    if (selectedButton !== null) {
+      const selectedContext = collectionEntry[selectedButton];
+      $selectedContextInfo[collectionParams.collectionName][collectionEntry.id] = selectedContext;
+    }
   };
 </script>
 
