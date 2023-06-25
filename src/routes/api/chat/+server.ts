@@ -16,9 +16,11 @@ const openai = new OpenAIApi(config)
 
 export const POST = (async ({ request }) => {
 
-
   // Extract the `prompt` from the body of the request
   const { messages, context } = await request.json()
+
+  console.log(context)
+
 
   let baseMessage = `
   "Here is a summary of the story so far: 
