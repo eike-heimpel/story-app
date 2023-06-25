@@ -19,3 +19,4 @@ faiss-backend
 pocketbase
 pocketbase-linux
 /pocketbase-linux
+.vercel
