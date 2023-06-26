@@ -10,11 +10,14 @@
   let collectionData: CollectionDataUnion[] = [];
   let selectAll = "";
   let isLoading = false;
-  const handleButtonClick = (event) => {
+  const handleButtonClick = (event: any) => {
     selectAll = event.detail.descriptionType;
   };
 
   const loadContext = async () => {
+    if (!$pb) {
+      return;
+    }
     collectionData = (await $pb.collection(collectionParams.collectionName).getFullList({
       sort: "-created",
     })) as CollectionDataUnion[];

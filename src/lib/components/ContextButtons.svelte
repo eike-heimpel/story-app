@@ -19,8 +19,7 @@
   });
 
   onDestroy(() => {
-    // Cleanup the watcher on component destruction
-    previousButton = null;
+    previousButton = "";
   });
 
   const selectButton = (descriptionType) => {
