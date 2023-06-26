@@ -1,11 +1,23 @@
 <script lang="ts">
   import SaveChatButton from "$lib/components/SaveChatButton.svelte";
+  import { selectedContextInfo } from "$lib/store";
   import { useChat } from "ai/svelte";
   const { handleSubmit, messages, input } = useChat();
 
   export let generationSite = "";
-  export let context: string = "";
   export let history = false;
+  export let myInput = "";
+
+  let firstSubmit = true;
+
+  function send(e) {
+    if (firstSubmit) {
+      $messages = [{ role: "user", content: JSON.stringify($selectedContextInfo) }];
+      firstSubmit = false;
+    }
+    $input = myInput;
+    handleSubmit(e);
+  }
 </script>
 
 <h2 class="text-center mb-6 text-4xl">Work on Your Story</h2>
@@ -21,7 +33,7 @@
   <button
     class="bg-secondary-color text-white"
     on:click={() => {
-      $messages = [];
+      $messages = [{ role: "user", content: context }];
     }}
     >Clear Chat
   </button>
@@ -29,9 +41,9 @@
 </div>
 
 <div class="input">
-  <form on:submit={handleSubmit}>
-    <textarea class="bg-secondary-color text-white text-xl rounded p-2 w-full" rows="3" bind:value={$input} />
-    <button type="submit" disabled={$input === ""}>Send</button>
+  <form on:submit={send}>
+    <textarea class="bg-secondary-color text-white text-xl rounded p-2 w-full" rows="3" bind:value={myInput} />
+    <button type="submit" disabled={myInput === ""}>Send</button>
   </form>
 </div>
 

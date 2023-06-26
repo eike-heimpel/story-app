@@ -17,9 +17,7 @@ const openai = new OpenAIApi(config)
 export const POST = (async ({ request }) => {
 
   // Extract the `prompt` from the body of the request
-  const { messages, context } = await request.json()
-
-  console.log(context)
+  const { messages} = await request.json()
 
 
   let baseMessage = `
@@ -33,9 +31,9 @@ export const POST = (async ({ request }) => {
     ------
   Here is some additional context. This is not all the context that exists, just what the user chose to include.
   CONTEXT
-  ${context}
   -----
-`
+` // i had to make it so the context is simply the first message from the user 
+
   const history = messages.map((message: any) => ({
     content: message.content,
     role: message.role}))
