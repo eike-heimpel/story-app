@@ -7,20 +7,28 @@
 </script>
 
 <form method="POST" class="flex flex-col items-center space-y-2 w-full pt-4">
-  <div class="form-control w-full max-w-md">
-    <label for="userName" class="label font-medium pb-1">
-      <span class="label-text">Username</span>
+  <div class="w-full max-w-md">
+    <label for="userName" class="block font-medium pb-1">
+      <span class="text-white">Username</span>
     </label>
-    <input type="text" name="userName" class="input input-bordered w-full max-w-md" />
+    <input
+      type="text"
+      name="userName"
+      class="w-full max-w-md bg-white text-black my-2 rounded p-2 border border-gray-300"
+    />
   </div>
-  <div class="form-control w-full max-w-md">
-    <label for="password" class="label font-medium pb-1">
-      <span class="label-text">Password</span>
+  <div class="w-full max-w-md">
+    <label for="password" class="block font-medium pb-1">
+      <span class="text-white">Password</span>
     </label>
-    <input type="password" name="password" class="input input-bordered w-full max-w-md" />
+    <input
+      type="password"
+      name="password"
+      class="w-full max-w-md bg-white text-black my-2 rounded p-2 border border-gray-300"
+    />
   </div>
 
   <div class="w-full max-w-md pt-2">
-    <button type="submit" class="btn btn-primary w-full">Login</button>
+    <button type="submit">Login</button>
   </div>
 </form>

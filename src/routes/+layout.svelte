@@ -39,20 +39,17 @@
     class="mt-10 ml-20 mr-20 rounded-2xl p-3 flex justify-evenly items-center flex-wrap gap-2 bg-secondary-color 2xl:flex-col 2xl:items-start 2xl:max-h-96"
   >
     {#each navItems as item (item)}
-      <a
-        class="bg-dominant-color p-3 rounded-lg 2xl:w-full text-center"
-        href="/{item}"
-        class:selected={selected === item}
-        on:click={handleClick(item)}
-      >
+      <a href="/{item}" class:selected={selected === item} on:click={handleClick(item)}>
         {item[0].toUpperCase() + item.slice(1)}
       </a>
     {/each}
 
     {#if !data.user}
-      <a href="/login"> login </a>
+      <a href="/login"> log in </a>
     {:else}
-      logged in
+      <form action="/logout" method="POST">
+        <button class="bg-secondary-color border border-x-dominant-color">Logout</button>
+      </form>
     {/if}
   </nav>
 
@@ -63,7 +60,7 @@
 
 <style>
   nav a {
-    @apply text-2xl;
+    @apply text-2xl bg-dominant-color p-3 rounded-lg text-center;
     text-decoration: none;
     /* transition: color 0.2s ease-in-out; */
   }
