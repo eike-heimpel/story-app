@@ -20,6 +20,8 @@ export type CollectionParam<T extends Collections> = {
 
 };
 
+export type CollectionPramUnion = CollectionParams<Collections.Characters> | CollectionParam<Collections.Plots>
+
 export const collections: (CollectionParam<Collections.Characters> | CollectionParam<Collections.Plots>)[] = [
   {
       collectionName: Collections.Characters,

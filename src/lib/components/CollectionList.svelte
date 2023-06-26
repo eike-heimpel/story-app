@@ -1,11 +1,11 @@
 <script lang="ts">
   import CollectionCard from "$lib/components/collection_list/CollectionCard.svelte";
-  import { pb, type CollectionParam, type CollectionDataUnion } from "$lib/store";
+  import { pb, type CollectionDataUnion, type CollectionPramUnion } from "$lib/store";
   import type { Collections } from "$lib/pocketbase-types";
   import { onMount } from "svelte";
   import ContextButtons from "$lib/components/ContextButtons.svelte";
 
-  export let collectionParams: CollectionParam<Collections>;
+  export let collectionParams: CollectionPramUnion;
 
   let collectionData: CollectionDataUnion[] = [];
   let selectAll = "";
