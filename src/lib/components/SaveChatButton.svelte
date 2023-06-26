@@ -1,6 +1,5 @@
 <script>
   import { fly, fade } from "svelte/transition";
-  import { pb } from "$lib/store";
 
   export let infoToSave = {};
   export let collectionName = "previous_chats";
@@ -15,14 +14,16 @@
     }
     console.log(collectionName);
     console.log(infoToSave);
-    try {
-      const result = await $pb?.collection(collectionName).create({ messages: JSON.stringify(infoToSave) });
-      console.log("Saved successfully:", result);
-      saveStatus = "Saved successfully";
-    } catch (error) {
-      console.error("Failed to save:", error);
-      saveStatus = "Failed to save";
-    }
+    fetch("/api/collections?collectionName", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message: infoToSave }),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log("saved"))
+      .catch((error) => console.error("Failed to save:", error));
 
     showNotification = true;
     setTimeout(() => (showNotification = false), 300);

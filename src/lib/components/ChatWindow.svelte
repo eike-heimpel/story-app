@@ -1,6 +1,6 @@
 <script lang="ts">
   import SaveChatButton from "$lib/components/SaveChatButton.svelte";
-  import { selectedContextInfo } from "$lib/store";
+  import { selectedContextInfo, currentMessages } from "$lib/store";
   import { useChat } from "ai/svelte";
   const { handleSubmit, messages, input } = useChat();
 
@@ -9,6 +9,7 @@
   export let myInput = "";
 
   let firstSubmit = true;
+  let showContext = false;
 
   function send(e) {
     if (firstSubmit) {
@@ -21,9 +22,9 @@
 </script>
 
 <h2 class="text-center mb-6 text-4xl">Work on Your Story</h2>
-<div class="chat-containe">
+<div class="chat-container">
   {#each $messages as message, i (message.id)}
-    {#if i !== 0}
+    {#if i !== 0 || (i === 0 && showContext)}
       <div class="chat-bubble {message.role}">
         <p>{message.content}</p>
       </div>
@@ -38,6 +39,17 @@
       $messages = [{ role: "user", content: JSON.stringify($selectedContextInfo) }];
     }}
     >Clear Chat
+  </button>
+  <button
+    class:toggled={showContext}
+    class="bg-secondary-color text-white"
+    on:click={() => (showContext = !showContext)}
+  >
+    {#if showContext}
+      Hide Context
+    {:else}
+      Show Context
+    {/if}
   </button>
   <SaveChatButton infoToSave={{ messages: $messages, user: "test" }} />
 </div>

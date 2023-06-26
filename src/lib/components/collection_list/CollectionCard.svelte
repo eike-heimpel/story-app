@@ -1,10 +1,16 @@
 <script lang="ts">
-  import { selectedContextInfo, type CollectionDataUnion, type CollectionParam } from "$lib/store";
+  import {
+    selectedContextInfo,
+    type CollectionDataUnion,
+    type CollectionParam,
+    type CollectionPramUnion,
+  } from "$lib/store";
+
   import type { Collections } from "$lib/pocketbase-types";
   import ContextButtons from "$lib/components/ContextButtons.svelte";
 
   export let collectionEntry: CollectionDataUnion;
-  export let collectionParams: CollectionParam<Collections>;
+  export let collectionParams: CollectionPramUnion;
   export let selectAll = "";
 
   let selectedButton: keyof CollectionDataUnion | null = null;
