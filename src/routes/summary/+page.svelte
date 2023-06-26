@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
   import ChatWindow from "$lib/components/ChatWindow.svelte";
   import CollectionList from "$lib/components/CollectionList.svelte";
   import { collections } from "$lib/store";
@@ -27,4 +27,4 @@
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Adjust 240px to fit your needs */
     gap: 2rem;
   }
-</style>
+</style> -->
