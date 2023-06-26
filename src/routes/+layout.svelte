@@ -1,33 +1,17 @@
 <script lang="ts">
   import "../app.css";
-  import { pb } from "$lib/store";
-  import { setContext, onMount, onDestroy } from "svelte";
-  import PocketBase from "pocketbase";
   import { page } from "$app/stores";
-  import { PUBLIC_PB_PW, PUBLIC_PB_USER } from "$env/static/public";
   import type { PageData } from "./$types";
 
   export let data: PageData;
 
   let selected = "";
-  const navItems = ["characters", "plot", "core-info", "summary"];
-  let retryInterval;
+  const navItems = ["characters", "plot", "chat-history", "summary"];
 
   const routeName = $page.route.id.replace("/", "");
   if (navItems.includes(routeName)) {
     selected = routeName;
   }
-
-  onMount(async () => {
-    $pb = new PocketBase("https://yummy-story.pockethost.io");
-    await $pb.collection("users").authWithPassword(PUBLIC_PB_USER, PUBLIC_PB_PW);
-  });
-
-  onDestroy(() => {
-    if (retryInterval) {
-      clearInterval(retryInterval);
-    }
-  });
 
   const handleClick = (item) => () => {
     selected = item;

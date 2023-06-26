@@ -1,6 +1,6 @@
 <script lang="ts">
   import CollectionCard from "$lib/components/collection_list/CollectionCard.svelte";
-  import { pb, type CollectionDataUnion, type CollectionPramUnion } from "$lib/store";
+  import type { CollectionDataUnion, CollectionPramUnion } from "$lib/store";
   import type { Collections } from "$lib/pocketbase-types";
   import { onMount } from "svelte";
   import ContextButtons from "$lib/components/ContextButtons.svelte";
@@ -15,26 +15,13 @@
   };
 
   const loadContext = async () => {
-    if (!$pb) {
-      return;
-    }
     const resp = await fetch(`/api/collections?collectionName=${collectionParams.collectionName}`);
     collectionData = await resp.json();
     isLoading = false;
   };
 
   onMount(async () => {
-    isLoading = true;
-    if (!$pb) {
-      const checkInterval = setInterval(() => {
-        if ($pb) {
-          clearInterval(checkInterval);
-          loadContext();
-        }
-      }, 1000);
-    } else {
-      loadContext();
-    }
+    loadContext();
   });
 </script>
 
