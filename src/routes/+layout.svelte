@@ -7,7 +7,7 @@
   import { PUBLIC_PB_PW, PUBLIC_PB_USER } from "$env/static/public";
 
   let selected = "";
-  const navItems = ["characters", "plot", "core-info", "summary", "testing"];
+  const navItems = ["characters", "plot", "core-info", "summary", "Log In"];
   let retryInterval;
 
   const routeName = $page.route.id.replace("/", "");

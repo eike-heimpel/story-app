@@ -35,11 +35,11 @@
   <button
     class="bg-secondary-color text-white"
     on:click={() => {
-      $messages = [{ role: "user", content: context }];
+      $messages = [{ role: "user", content: JSON.stringify($selectedContextInfo) }];
     }}
     >Clear Chat
   </button>
-  <SaveChatButton infoToSave={{ messages: $messages }} />
+  <SaveChatButton infoToSave={{ messages: $messages, user: "test" }} />
 </div>
 
 <div class="input">
