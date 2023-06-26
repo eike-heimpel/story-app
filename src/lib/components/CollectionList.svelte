@@ -18,9 +18,8 @@
     if (!$pb) {
       return;
     }
-    collectionData = (await $pb.collection(collectionParams.collectionName).getFullList({
-      sort: "-created",
-    })) as CollectionDataUnion[];
+    const resp = await fetch(`/api/collections?collectionName=${collectionParams.collectionName}`);
+    collectionData = await resp.json();
     isLoading = false;
   };
 
