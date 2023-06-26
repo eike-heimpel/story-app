@@ -5,9 +5,12 @@
   import PocketBase from "pocketbase";
   import { page } from "$app/stores";
   import { PUBLIC_PB_PW, PUBLIC_PB_USER } from "$env/static/public";
+  import type { PageData } from "./$types";
+
+  export let data: PageData;
 
   let selected = "";
-  const navItems = ["characters", "plot", "core-info", "summary", "Log In"];
+  const navItems = ["characters", "plot", "core-info", "summary"];
   let retryInterval;
 
   const routeName = $page.route.id.replace("/", "");
@@ -45,6 +48,12 @@
         {item[0].toUpperCase() + item.slice(1)}
       </a>
     {/each}
+
+    {#if !data.user}
+      <a href="/login"> login </a>
+    {:else}
+      logged in
+    {/if}
   </nav>
 
   <div class="max-width-2000px mx-auto">
