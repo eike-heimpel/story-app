@@ -12,7 +12,7 @@
 
   function send(e) {
     if (firstSubmit) {
-      $messages = [{ role: "user", content: JSON.stringify($selectedContextInfo) }];
+      $messages = [{ role: "user", content: JSON.stringify($selectedContextInfo) }]; // context becomes index 0, we will not display it to the user below
       firstSubmit = false;
     }
     $input = myInput;
@@ -22,10 +22,12 @@
 
 <h2 class="text-center mb-6 text-4xl">Work on Your Story</h2>
 <div class="chat-containe">
-  {#each $messages as message}
-    <div class="chat-bubble {message.role}">
-      <p>{message.content}</p>
-    </div>
+  {#each $messages as message, i (message.id)}
+    {#if i !== 0}
+      <div class="chat-bubble {message.role}">
+        <p>{message.content}</p>
+      </div>
+    {/if}
   {/each}
 </div>
 
