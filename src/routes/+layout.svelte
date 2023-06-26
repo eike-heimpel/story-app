@@ -4,6 +4,7 @@
   import { setContext, onMount, onDestroy } from "svelte";
   import PocketBase from "pocketbase";
   import { page } from "$app/stores";
+  import { PUBLIC_PB_PW, PUBLIC_PB_USER } from "$env/static/public";
 
   let selected = "";
   const navItems = ["characters", "plot", "core-info", "summary", "testing"];
@@ -16,7 +17,7 @@
 
   onMount(async () => {
     $pb = new PocketBase("https://yummy-story.pockethost.io");
-    await $pb.admins.authWithPassword("test@test.com", "testtesttest");
+    await $pb.collection("users").authWithPassword(PUBLIC_PB_USER, PUBLIC_PB_PW);
   });
 
   onDestroy(() => {
