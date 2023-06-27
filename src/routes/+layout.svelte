@@ -6,12 +6,14 @@
   export let data: PageData;
 
   let selected = "";
-  const navItems = ["characters", "plot", "chat-history", "summary"];
+  const navItems = ["characters", "plot", "insert", "summary"];
 
-  const routeName = $page.route.id.replace("/", "");
-  if (navItems.includes(routeName)) {
-    selected = routeName;
-  }
+  try {
+    const routeName = $page.route.id.replace("/", "");
+    if (navItems.includes(routeName)) {
+      selected = routeName;
+    }
+  } catch {}
 
   const handleClick = (item) => () => {
     selected = item;
