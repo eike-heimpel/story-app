@@ -1,11 +1,14 @@
 <script>
   import { fly, fade } from "svelte/transition";
+  import SaveModalContent from "./SaveEntryModalContent.svelte";
+  import ModalWrapper from "./ModalWrapper.svelte";
 
   export let infoToSave = {};
   export let collectionName = "previous_chats";
 
   let saveStatus = "";
   let showNotification = false;
+  let showModal = false;
 
   const saveResponse = async () => {
     if (Object.keys(infoToSave).length === 0) {
@@ -18,7 +21,7 @@
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ message: infoToSave }),
+      body: JSON.stringify({ collectionName: collectionName, infoToSave: infoToSave }),
     })
       .then((response) => response.json())
       .then((data) => console.log("saved"))
@@ -27,9 +30,21 @@
     showNotification = true;
     setTimeout(() => (showNotification = false), 300);
   };
+
+  const openSaveModal = () => {
+    showModal = true;
+  };
+
+  const closeSaveModal = () => {
+    showModal = false;
+  };
 </script>
 
-<button type="button" on:click={saveResponse}>Save</button>
+<button type="button" on:click={openSaveModal}> Save Entry </button>
+
+<ModalWrapper {showModal} closeFunction={closeSaveModal}>
+  <SaveModalContent {closeSaveModal} />
+</ModalWrapper>
 
 {#if showNotification}
   <div class="notification" in:fly={{ y: -100, duration: 200 }} out:fade>

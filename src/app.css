@@ -52,3 +52,7 @@ button:hover {
     background-color: #e3c711;
     @apply text-black;
 }
+
+.white-button {
+    @apply w-full bg-white m-1;
+}
