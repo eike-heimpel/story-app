@@ -1,7 +1,41 @@
 <script lang="ts">
-  function addEntry(fromHistory = false) {}
-  function saveChat() {}
+  export let chatHistory = [];
   export let closeSaveModal;
+
+  let collectionName = "characters"; // this needs to be set by a button in the future
+
+  function addEntry(fromHistory = false) {
+    const message = fromHistory ? chatHistory : chatHistory[chatHistory.length - 1].content;
+
+    fetch("/api/gpt-functions", {
+      // Replace with the actual API endpoint you're using
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message: message, collectionName: collectionName }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+
+  async function saveChat() {
+    fetch("/api/collections?collectionName", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ collectionName: "previous_chats", infoToSave: chatHistory }),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log("saved"))
+      .catch((error) => console.error("Failed to save:", error));
+  }
 </script>
 
 <div class="bg-dominant-color p-4 sm:p-6 sm:pb-4">

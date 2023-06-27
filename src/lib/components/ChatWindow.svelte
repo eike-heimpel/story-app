@@ -1,6 +1,6 @@
 <script lang="ts">
   import SaveChatButton from "$lib/components/SaveChatButton.svelte";
-  import { selectedContextInfo, currentMessages } from "$lib/store";
+  import { selectedContextInfo, currentMessages, chatHistory } from "$lib/store";
   import { useChat } from "ai/svelte";
   const { handleSubmit, messages, input } = useChat();
 
@@ -51,7 +51,7 @@
       Show Context
     {/if}
   </button>
-  <SaveChatButton infoToSave={{ messages: $messages, user: "test" }} />
+  <SaveChatButton chatHistory={$messages} />
 </div>
 
 <div class="input">
