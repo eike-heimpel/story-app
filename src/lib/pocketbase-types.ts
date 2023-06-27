@@ -40,7 +40,7 @@ export type CharactersRecord = {
 	short_description?: string
 	long_description?: string
 	core_cast?: boolean
-	age?: number
+	age: number
 	birthdate?: IsoDateString
 	plots?: RecordIdString[]
 	user?: RecordIdString
