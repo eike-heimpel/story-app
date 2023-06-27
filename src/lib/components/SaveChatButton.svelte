@@ -12,8 +12,7 @@
       console.log("Empty info, not saving");
       return;
     }
-    console.log(collectionName);
-    console.log(infoToSave);
+
     fetch("/api/collections?collectionName", {
       method: "POST",
       headers: {

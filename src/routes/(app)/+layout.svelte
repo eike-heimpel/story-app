@@ -4,7 +4,7 @@
   export let data: PageData;
 </script>
 
-<div class="2xl:flex">
+<div>
   <div class="max-width-2000px mx-auto">
     {#if !data.user}
       <div class="flex justify-center m-5 gap-10">

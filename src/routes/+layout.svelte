@@ -20,10 +20,8 @@
   };
 </script>
 
-<div class="2xl:flex">
-  <nav
-    class="mt-10 ml-20 mr-20 rounded-2xl p-3 flex justify-evenly items-center flex-wrap gap-2 bg-secondary-color 2xl:flex-col 2xl:items-start 2xl:max-h-96"
-  >
+<div>
+  <nav class="mt-10 ml-20 mr-20 rounded-2xl p-3 flex justify-evenly items-center flex-wrap gap-2 bg-secondary-color">
     {#each navItems as item (item)}
       <a href="/{item}" class:selected={selected === item} on:click={handleClick(item)}>
         {item[0].toUpperCase() + item.slice(1)}

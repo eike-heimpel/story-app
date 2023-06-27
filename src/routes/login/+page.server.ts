@@ -7,7 +7,6 @@ export const actions = {
 
 		try {
 			const auth = await locals.pb.collection('users').authWithPassword(body.userName, body.password);
-            console.log
 			if (!locals.pb?.authStore?.model?.verified) {
 				locals.pb.authStore.clear();
 				return {

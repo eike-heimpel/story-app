@@ -19,7 +19,6 @@ export const POST = async ( {locals}) => {
     if (!locals.pb) {
         return json({})
     }
-    console.log(pb)
     const collectionData = await locals.pb.collection(params.get("collectionName")).getFullList({
         sort: "-created",
     })
