@@ -35,27 +35,30 @@ export type AuthSystemFields<T = never> = {
 // Record types for each collection
 
 export type CharactersRecord = {
+	name: string
+	one_line_description: string
+	short_description?: string
+	long_description?: string
 	core_cast?: boolean
 	age?: number
-	long_description?: string
-	short_description?: string
-	one_line_description?: string
-	name?: string
 	birthdate?: IsoDateString
 	plots?: RecordIdString[]
+	user?: RecordIdString
 }
 
 export type PlotsRecord = {
-	name?: string
+	name: string
+	one_line_description: string
 	short_description?: string
-	one_line_description?: string
 	long_description?: string
 	date?: IsoDateString
 	chracters?: RecordIdString[]
+	user?: RecordIdString
 }
 
 export type PreviousChatsRecord<Tmessages = unknown> = {
 	messages?: null | Tmessages
+	user?: RecordIdString
 }
 
 export type TestRecord = {
