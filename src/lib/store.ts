@@ -1,7 +1,7 @@
 import type { Writable } from "svelte/store";
 import {writable} from "svelte/store";
-import type { CollectionRecords, CharactersResponse, PlotsResponse, CollectionResponses } from "$lib/pocketbase-types";
-import  {Collections} from "$lib/pocketbase-types";
+import type { CollectionRecords, CharactersResponse, PlotsResponse, CollectionResponses } from "$lib/pocketbase_types";
+import  {Collections} from "$lib/pocketbase_types";
 
 export const collectionResponseMap: Record<Collections, keyof CollectionResponses> = {
   [Collections.Characters]: 'characters',

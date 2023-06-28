@@ -6,7 +6,6 @@
     type CollectionPramUnion,
   } from "$lib/store";
 
-  import type { Collections } from "$lib/pocketbase-types";
   import ContextButtons from "$lib/components/ContextButtons.svelte";
 
   export let collectionEntry: CollectionDataUnion;
@@ -16,6 +15,7 @@
   let selectedButton: keyof CollectionDataUnion | null = null;
   const handleButtonClick = (event: any) => {
     selectedButton = event.detail.descriptionType;
+    if (!selectedButton) return;
     const selectedContext = collectionEntry[selectedButton];
     $selectedContextInfo[collectionParams.collectionName][collectionEntry.id] = selectedContext;
   };
