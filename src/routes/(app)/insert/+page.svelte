@@ -2,63 +2,30 @@
   import type { PageData } from "./$types";
   import { enhance } from "$app/forms";
   import Input from "$lib/components/Input.svelte";
-  import { fade } from "svelte/transition";
+  import { Collections } from "$lib/pocketbase_types";
+  import { descriptionsMap } from "$lib/collection_info";
 
   export let data: PageData;
 
-  let options = ["plots", "characters"];
+  let options = Object.values(Collections);
+
+  let inputs = {};
+
+  for (const collection of options) {
+    const description = descriptionsMap[collection];
+    const collectionInputs = Object.entries(description.parameters.properties).map(([name, fieldDescription]) => ({
+      name,
+      type: fieldDescription.type,
+      optional: !description.parameters.required.includes(name),
+    }));
+    inputs[collection] = collectionInputs;
+  }
+
   let selectedOption = "characters";
 
   let responseJson = {};
   let inputText = "";
-
-  function fillForm() {
-    const message = { message: inputText };
-    console.log(message);
-
-    // The fetch call
-    fetch("/api/gpt-functions", {
-      // Replace with the actual API endpoint you're using
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(message),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Log the data returned from the server
-        responseJson = data;
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
-
-  let inputs = {
-    characters: [
-      { name: "name", type: "text", optional: false },
-      { name: "one_line_description", type: "text", optional: false },
-      { name: "short_description", type: "textarea", optional: true },
-      { name: "long_description", type: "textarea", optional: true },
-      { name: "age", type: "number", optional: true },
-      { name: "birthdate", type: "date", optional: true },
-      { name: "core_cast", type: "checkbox", optional: true },
-    ],
-    plots: [
-      { name: "name", type: "text", optional: false },
-      { name: "one_line_description", type: "text", optional: false },
-      { name: "short_description", type: "textarea", optional: true },
-      { name: "long_description", type: "textarea", optional: true },
-      { name: "date", type: "date", optional: true },
-    ],
-  };
 </script>
-
-<div class="flex flex-col w-1/2 m-auto mt-10">
-  <textarea class="text-black p-2" rows="10" bind:value={inputText} />
-  <button class="m-4" on:click={fillForm}>Fill Form</button>
-</div>
 
 <form action="?/create" method="POST" use:enhance class="flex flex-col items-center space-y-2 w-full pt-4 mt-4">
   <div class="w-full max-w-md">
