@@ -16,11 +16,8 @@
   let selectedButton: keyof CollectionDataUnion | null = null;
   const handleButtonClick = (event: any) => {
     selectedButton = event.detail.descriptionType;
-
-    if (selectedButton !== null) {
-      const selectedContext = collectionEntry[selectedButton];
-      $selectedContextInfo[collectionParams.collectionName][collectionEntry.id] = selectedContext;
-    }
+    const selectedContext = collectionEntry[selectedButton];
+    $selectedContextInfo[collectionParams.collectionName][collectionEntry.id] = selectedContext;
   };
 </script>
 

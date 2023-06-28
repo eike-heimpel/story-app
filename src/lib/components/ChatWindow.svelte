@@ -9,7 +9,6 @@
   export let myInput = "";
 
   let firstSubmit = true;
-  let showContext = false;
 
   function send(e) {
     if (firstSubmit) {
@@ -24,7 +23,7 @@
 <h2 class="text-center mb-6 text-4xl">Work on Your Story</h2>
 <div class="chat-container">
   {#each $messages as message, i (message.id)}
-    {#if i !== 0 || (i === 0 && showContext)}
+    {#if i !== 0}
       <div class="chat-bubble {message.role}">
         <div class="whitespace-pre-wrap">{message.content}</div>
       </div>
@@ -39,17 +38,6 @@
       $messages = [{ role: "user", content: JSON.stringify($selectedContextInfo) }];
     }}
     >Clear Chat
-  </button>
-  <button
-    class:toggled={showContext}
-    class="bg-secondary-color text-white"
-    on:click={() => (showContext = !showContext)}
-  >
-    {#if showContext}
-      Hide Context
-    {:else}
-      Show Context
-    {/if}
   </button>
   <SaveChatButton chatHistory={$messages} />
 </div>

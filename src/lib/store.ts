@@ -23,6 +23,7 @@ export type CollectionParam<T extends Collections> = {
 export type CollectionPramUnion = CollectionParam<Collections.Characters> | CollectionParam<Collections.Plots>
 
 export const collections: (CollectionParam<Collections.Characters> | CollectionParam<Collections.Plots>)[] = [
+  // if we allow users to add collections we need to make this a writable
   {
       collectionName: Collections.Characters,
       headlineFields: ["name", "age"],
@@ -34,6 +35,8 @@ export const collections: (CollectionParam<Collections.Characters> | CollectionP
       infoField: "one_line_description"
   },
 ];
+
+export const collectionData = writable({}) // need to type this as key can onl ybe collection names and values ony CollectionDataUnion[]
 
 export const websocket: Writable<WebSocket | null> = writable(null);
 
@@ -52,6 +55,7 @@ export const selectedContextInfo = writable({
   characters: {},
   plots: {},
 });
+
 
 export const currentMessages = writable([])
 

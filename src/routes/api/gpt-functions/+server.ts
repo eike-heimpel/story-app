@@ -72,14 +72,13 @@ export const POST = async ({ request, locals }) => {
     const completionArguments = JSON.parse(completionResponse.function_call.arguments); // Extract the argument for the function call
 
     completionArguments.user = locals.user.id;
+    let insertedRecord;
     try {
-        await locals.pb.collection(collectionName).create(completionArguments);
+        insertedRecord = await locals.pb.collection(collectionName).create(completionArguments);
     } catch (err) {
         return json({"message": "unable to create entry", "error": JSON.stringify(err)}, { status: 422 })
     }
-
-    console.log("inserted")
-    return json(completionArguments)
+    return json(insertedRecord)
 
     } catch (err) {
         console.log(err)

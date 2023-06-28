@@ -1,15 +1,37 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import ChatWindow from "$lib/components/ChatWindow.svelte";
   import CollectionList from "$lib/components/CollectionList.svelte";
-  import { collections } from "$lib/store";
+  import ContextList from "$lib/components/ContextList.svelte";
+  import { collections, type CollectionPramUnion } from "$lib/store";
+
+  let selectedCollection: string;
+  let selectedCollectionParams: CollectionPramUnion;
+
+  onMount(async () => {
+    selectedCollection = collections[0].collectionName;
+  });
+
+  $: selectedCollectionParams = collections.find((collection) => collection.collectionName === selectedCollection);
 </script>
 
 <div class="generation mx-4 md:mx-8 lg:mx-16">
   <div class="collection-grid">
-    {#each collections as collection}
-      <CollectionList collectionParams={collection} />
-    {/each}
+    <div>
+      <select
+        bind:value={selectedCollection}
+        class="w-full p-2 bg-dominant-color text-white rounded-md shadow text-center text-4xl"
+      >
+        {#each collections as collection}
+          <option value={collection.collectionName} class="bg-secondary-color">{collection.collectionName}</option>
+        {/each}
+      </select>
+      {#if selectedCollection}
+        <CollectionList collectionParams={selectedCollectionParams} />
+      {/if}
+    </div>
   </div>
+  <div><ContextList /></div>
   <div class="mt-8">
     <ChatWindow />
   </div>
@@ -18,7 +40,7 @@
 <style>
   .generation {
     display: grid;
-    grid-template-columns: 3fr 2fr;
+    grid-template-columns: 1.5fr 1.5fr 2fr;
     gap: 2rem;
   }
 

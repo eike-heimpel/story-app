@@ -4,10 +4,12 @@
 </script>
 
 {#if $loadingInfo.loading}
-  <div
-    class="fixed right-0 top-1/3 w-1/6 h-1/3 flex justify-center items-center gap-3 bg-dominant-color border border-accent-color rounded z-[9999] text-2xl"
-  >
-    {$loadingInfo.message}
-    <DotsAnimation />
+  <div class="fixed inset-0 flex items-center justify-center">
+    <div
+      class="w-1/4 h-1/6 m-auto flex flex-col justify-center items-center gap-3 bg-dominant-color border border-accent-color rounded z-[9999] text-2xl"
+    >
+      {$loadingInfo.message}
+      <DotsAnimation />
+    </div>
   </div>
 {/if}

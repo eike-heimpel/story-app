@@ -1,37 +1,43 @@
 <script lang="ts">
   import CollectionCard from "$lib/components/collection_list/CollectionCard.svelte";
-  import type { CollectionDataUnion, CollectionPramUnion } from "$lib/store";
-  import type { Collections } from "$lib/pocketbase-types";
-  import { onMount } from "svelte";
+  import { loadingInfo, collectionData, type CollectionDataUnion, type CollectionPramUnion } from "$lib/store";
   import ContextButtons from "$lib/components/ContextButtons.svelte";
+  import { onMount } from "svelte";
 
   export let collectionParams: CollectionPramUnion;
 
-  let collectionData: CollectionDataUnion[] = [];
   let selectAll = "";
-  let isLoading = false;
+
   const handleButtonClick = (event: any) => {
     selectAll = event.detail.descriptionType;
   };
 
-  const loadContext = async () => {
+  const loadContext = async (reload = false) => {
+    if ($collectionData[collectionParams.collectionName] && !reload) {
+      return;
+    }
+
+    $loadingInfo.loading = true;
+    $loadingInfo.message = "Loading collection";
     const resp = await fetch(`/api/collections?collectionName=${collectionParams.collectionName}`);
-    collectionData = await resp.json();
-    isLoading = false;
+    const currentCollectionData = await resp.json();
+    $collectionData[collectionParams.collectionName] = currentCollectionData;
+    $loadingInfo.loading = false;
   };
 
-  onMount(async () => {
-    loadContext();
-  });
+  $: if (collectionParams) loadContext();
 </script>
 
-<div>
-  <h2 class="text-center text-4xl my-6">{collectionParams.collectionName}</h2>
-  <ContextButtons on:buttonClick={handleButtonClick} selectedButton={selectAll} flexCol={false} />
+{#if !$loadingInfo.loading}
+  <div>
+    <ContextButtons on:buttonClick={handleButtonClick} selectedButton={selectAll} flexCol={false} />
 
-  <div class="space-y-6">
-    {#each collectionData as collectionEntry}
-      <CollectionCard {collectionEntry} {collectionParams} {selectAll} />
-    {/each}
+    <div class="space-y-6">
+      {#if $collectionData[collectionParams.collectionName]}
+        {#each $collectionData[collectionParams.collectionName] as collectionEntry}
+          <CollectionCard {collectionEntry} {collectionParams} {selectAll} />
+        {/each}
+      {/if}
+    </div>
   </div>
-</div>
+{/if}

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { loadingInfo } from "$lib/store";
+  import { loadingInfo, collectionData } from "$lib/store";
 
   export let chatHistory = [];
   export let closeSaveModal;
@@ -13,7 +13,6 @@
     $loadingInfo.message = "Saving Entry";
 
     fetch("/api/gpt-functions", {
-      // Replace with the actual API endpoint you're using
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,9 +21,14 @@
     })
       .then((response) => response.json())
       .then((data) => {
+        $collectionData[collectionName] = [data, ...$collectionData[collectionName]];
         $loadingInfo.loading = false;
       })
       .catch((error) => {
+        $loadingInfo.message = "failed to unsert record";
+        setTimeout(() => {
+          $loadingInfo.loading = false;
+        }, 2000);
         console.error("Error:", error);
       });
   }
