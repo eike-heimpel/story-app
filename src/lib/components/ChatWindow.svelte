@@ -26,7 +26,7 @@
   {#each $messages as message, i (message.id)}
     {#if i !== 0 || (i === 0 && showContext)}
       <div class="chat-bubble {message.role}">
-        <p>{message.content}</p>
+        <div class="whitespace-pre-wrap">{message.content}</div>
       </div>
     {/if}
   {/each}

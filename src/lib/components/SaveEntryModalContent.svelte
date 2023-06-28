@@ -1,11 +1,16 @@
 <script lang="ts">
+  import { loadingInfo } from "$lib/store";
+
   export let chatHistory = [];
   export let closeSaveModal;
 
-  let collectionName = "characters"; // this needs to be set by a button in the future
+  let collectionName = "characters";
 
   function addEntry(fromHistory = false) {
     const message = fromHistory ? chatHistory : chatHistory[chatHistory.length - 1].content;
+
+    $loadingInfo.loading = true;
+    $loadingInfo.message = "Saving Entry";
 
     fetch("/api/gpt-functions", {
       // Replace with the actual API endpoint you're using
@@ -17,7 +22,7 @@
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        $loadingInfo.loading = false;
       })
       .catch((error) => {
         console.error("Error:", error);

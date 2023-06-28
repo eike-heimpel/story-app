@@ -54,3 +54,5 @@ export const selectedContextInfo = writable({
 });
 
 export const currentMessages = writable([])
+
+export const loadingInfo = writable({ loading: false, message: "nothing is loading" })

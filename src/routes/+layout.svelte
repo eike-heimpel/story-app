@@ -2,6 +2,7 @@
   import "../app.css";
   import { page } from "$app/stores";
   import type { PageData } from "./$types";
+  import InfoCenter from "$lib/components/InfoCenter.svelte";
 
   export let data: PageData;
 
@@ -41,6 +42,8 @@
     <slot />
   </div>
 </div>
+
+<InfoCenter />
 
 <style>
   nav a {
