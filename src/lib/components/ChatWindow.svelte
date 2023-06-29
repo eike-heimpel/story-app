@@ -6,7 +6,7 @@
 
   export let generationSite = "";
   export let history = false;
-  export let myInput = "";
+  export let myInput = "Write a very very short description for a new character called Kamil";
 
   let firstSubmit = true;
 

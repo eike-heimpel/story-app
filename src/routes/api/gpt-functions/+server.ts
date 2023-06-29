@@ -1,15 +1,16 @@
 import {OpenAIApi, Configuration} from "openai-edge"
 import { json } from '@sveltejs/kit'
 import { env } from '$env/dynamic/private'
-import {descriptionsMap} from "$lib/collection_info"
-import type { Collections } from '$lib/pocketbase_types';
+import {descriptionsMap,  collectionToSchemaMap } from "$lib/collection_info"
+import type { Collections} from '$lib/collection_info.js';
+import { error, redirect } from '@sveltejs/kit';
+
 
 // Create an OpenAI API client
 const config = new Configuration({
   apiKey: env.OPENAI_API_KEY
 })
 const openai = new OpenAIApi(config);
-
 
 export const POST = async ({ request, locals }) => {
 
@@ -30,11 +31,22 @@ export const POST = async ({ request, locals }) => {
         function_call: {"name": descriptionsMap[collectionName as Collections].name}
     });
 
+    let completionArguments;
     try {
-    const data = await completion.json()
-    const completionResponse = data.choices[0].message; // Extract the generated completion from the OpenAI API respons
-    
-    const completionArguments = JSON.parse(completionResponse.function_call.arguments); // Extract the argument for the function call
+        const data = await completion.json()
+        const completionResponse = data.choices[0].message; // Extract the generated completion from the OpenAI API respons
+        
+        completionArguments = JSON.parse(completionResponse.function_call.arguments); // Extract the argument for the function call
+
+    } catch (err) {
+        console.log(err)
+        throw error(422, "unable to process LLM output")
+    }
+    try {
+        collectionToSchemaMap[collectionName].parse(completionArguments)
+    } catch {
+        throw error(422, "unable to zod parse LLM output")
+    }
 
     completionArguments.user = locals.user.id;
     let insertedRecord;
@@ -45,10 +57,6 @@ export const POST = async ({ request, locals }) => {
     }
     return json(insertedRecord)
 
-    } catch (err) {
-        console.log(err)
-        return json({})
-    }
 };
 
 

@@ -2,8 +2,7 @@
   import type { PageData } from "./$types";
   import { enhance } from "$app/forms";
   import Input from "$lib/components/Input.svelte";
-  import { Collections } from "$lib/pocketbase_types";
-  import { descriptionsMap } from "$lib/collection_info";
+  import { descriptionsMap, Collections } from "$lib/collection_info";
 
   export let data: PageData;
 
@@ -22,9 +21,6 @@
   }
 
   let selectedOption = "characters";
-
-  let responseJson = {};
-  let inputText = "";
 </script>
 
 <form action="?/create" method="POST" use:enhance class="flex flex-col items-center space-y-2 w-full pt-4 mt-4">
@@ -45,13 +41,7 @@
     {#each inputs[selectedOption] as input (input.name)}
       <!-- svelte-ignore a11y-label-has-associated-control -->
       <label class="block font-medium pb-1 text-white">
-        <Input
-          id={input.name}
-          label={input.name}
-          required={!input.optional}
-          type={input.type}
-          value={responseJson[input.name] || ""}
-        />
+        <Input id={input.name} label={input.name} required={!input.optional} type={input.type} />
       </label>
     {/each}
   </div>
