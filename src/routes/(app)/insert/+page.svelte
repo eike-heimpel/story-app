@@ -2,16 +2,16 @@
   import type { PageData } from "./$types";
   import { enhance } from "$app/forms";
   import Input from "$lib/components/Input.svelte";
-  import { descriptionsMap, Collections } from "$lib/collection_info";
+  import { collections } from "$lib/collection_schemas";
 
   export let data: PageData;
 
-  let options = Object.values(Collections);
+  let options = Object.keys(collections);
 
   let inputs = {};
 
   for (const collection of options) {
-    const description = descriptionsMap[collection];
+    const description = collections[collection].description;
     const collectionInputs = Object.entries(description.parameters.properties).map(([name, fieldDescription]) => ({
       name,
       type: fieldDescription.type,

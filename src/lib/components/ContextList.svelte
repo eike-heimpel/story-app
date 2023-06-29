@@ -1,7 +1,6 @@
 <script lang="ts">
   import CollectionCard from "$lib/components/collection_list/CollectionCard.svelte";
-  import { selectedContextInfo, collections } from "$lib/store";
-  $: console.log($selectedContextInfo);
+  import { selectedContextInfo } from "$lib/store";
 </script>
 
 <div>

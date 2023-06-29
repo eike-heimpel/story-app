@@ -1,8 +1,8 @@
 import {OpenAIApi, Configuration} from "openai-edge"
 import { json } from '@sveltejs/kit'
 import { env } from '$env/dynamic/private'
-import {descriptionsMap,  collectionToSchemaMap } from "$lib/collection_info"
-import type { Collections} from '$lib/collection_info.js';
+import {collections} from "$lib/collection_schemas"
+import type {UserInputCollections} from "$lib/collection_schemas/user_input_collections.js"
 import { error, redirect } from '@sveltejs/kit';
 
 
@@ -26,9 +26,9 @@ export const POST = async ({ request, locals }) => {
         ],
         temperature: 0,
         functions: [
-            descriptionsMap[collectionName as Collections] 
+            collections[collectionName as UserInputCollections].description
         ],
-        function_call: {"name": descriptionsMap[collectionName as Collections].name}
+        function_call: {"name": collections[collectionName as UserInputCollections].description.name} // figure out why it does not complain about a wrong description key
     });
 
     let completionArguments;
@@ -37,13 +37,13 @@ export const POST = async ({ request, locals }) => {
         const completionResponse = data.choices[0].message; // Extract the generated completion from the OpenAI API respons
         
         completionArguments = JSON.parse(completionResponse.function_call.arguments); // Extract the argument for the function call
-
+        console.log( completionArguments)
     } catch (err) {
         console.log(err)
         throw error(422, "unable to process LLM output")
     }
     try {
-        collectionToSchemaMap[collectionName].parse(completionArguments)
+        collections[collectionName as UserInputCollections].schema.parse(completionArguments)
     } catch {
         throw error(422, "unable to zod parse LLM output")
     }

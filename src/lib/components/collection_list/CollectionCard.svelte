@@ -1,18 +1,14 @@
 <script lang="ts">
-  import {
-    selectedContextInfo,
-    type CollectionDataUnion,
-    type CollectionParam,
-    type CollectionPramUnion,
-  } from "$lib/store";
+  import { selectedContextInfo } from "$lib/store";
+  import type { CollectionPramUnion, InsertCollectionUnion } from "$lib/collection_schemas";
 
   import ContextButtons from "$lib/components/ContextButtons.svelte";
 
-  export let collectionEntry: CollectionDataUnion;
+  export let collectionEntry: InsertCollectionUnion;
   export let collectionParams: CollectionPramUnion;
   export let selectAll = "";
 
-  let selectedButton: keyof CollectionDataUnion | null = null;
+  let selectedButton: keyof InsertCollectionUnion | null = null;
   const handleButtonClick = (event: any) => {
     selectedButton = event.detail.descriptionType;
     if (!selectedButton) return;

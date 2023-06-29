@@ -1,8 +1,8 @@
 <script lang="ts">
   import CollectionCard from "$lib/components/collection_list/CollectionCard.svelte";
-  import { loadingInfo, collectionData, type CollectionDataUnion, type CollectionPramUnion } from "$lib/store";
+  import { loadingInfo, collectionData } from "$lib/store";
+  import type { CollectionPramUnion } from "$lib/collection_schemas";
   import ContextButtons from "$lib/components/ContextButtons.svelte";
-  import { onMount } from "svelte";
 
   export let collectionParams: CollectionPramUnion;
 

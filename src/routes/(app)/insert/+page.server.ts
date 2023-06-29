@@ -1,5 +1,5 @@
 import { error, redirect } from '@sveltejs/kit';
-import type { InsertCollectionUnion } from "$lib/collection_info";
+import type { InsertCollectionUnion } from "$lib/collection_schemas";
 import { z } from 'zod';
 
 export const load = ({ locals }) => {

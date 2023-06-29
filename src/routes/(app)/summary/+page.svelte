@@ -3,16 +3,16 @@
   import ChatWindow from "$lib/components/ChatWindow.svelte";
   import CollectionList from "$lib/components/CollectionList.svelte";
   import ContextList from "$lib/components/ContextList.svelte";
-  import { collections, type CollectionPramUnion } from "$lib/store";
+  import { collections, type CollectionPramUnion } from "$lib/collection_schemas";
 
   let selectedCollection: string;
   let selectedCollectionParams: CollectionPramUnion;
 
   onMount(async () => {
-    selectedCollection = collections[0].collectionName;
+    selectedCollection = Object.keys(collections)[0];
   });
 
-  $: selectedCollectionParams = collections.find((collection) => collection.collectionName === selectedCollection);
+  $: if (collections[selectedCollection]) selectedCollectionParams = collections[selectedCollection].collectionParams;
 </script>
 
 <div class="generation mx-4 md:mx-8 lg:mx-16">
@@ -22,8 +22,8 @@
         bind:value={selectedCollection}
         class="w-full p-2 bg-dominant-color text-white rounded-md shadow text-center text-4xl"
       >
-        {#each collections as collection}
-          <option value={collection.collectionName} class="bg-secondary-color">{collection.collectionName}</option>
+        {#each Object.entries(collections) as collectionName, collection}
+          <option value={collectionName} class="bg-secondary-color">{collectionName}</option>
         {/each}
       </select>
       {#if selectedCollection}

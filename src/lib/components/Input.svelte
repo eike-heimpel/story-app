@@ -2,7 +2,6 @@
   export let id: string;
   export let label: string;
   export let type: string;
-  export let collectionName: string;
 
   export let placeholder = "";
   export let disabled = false;
