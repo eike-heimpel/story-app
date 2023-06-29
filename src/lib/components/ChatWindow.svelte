@@ -35,7 +35,9 @@
   <button
     class="bg-secondary-color text-white"
     on:click={() => {
+      console.log("clearing chat messages");
       $messages = [{ role: "user", content: JSON.stringify($selectedContextInfo) }];
+      console.log($messages);
     }}
     >Clear Chat
   </button>

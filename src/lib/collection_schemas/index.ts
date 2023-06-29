@@ -2,16 +2,17 @@ import { CharactersSchema, type CharactersRecord, type CharactersCollectionParam
 import { PlotsSchema, type PlotsRecord, type PlotsCollectionParam, plotsRecordDescription, plotsCollection } from './plots';
 import { PreviousChatsSchema, type PreviousChatsRecord, type PreviousChatsCollectionParam, previousChatsRecordDescription, previousChatsCollection} from './previous_chats';
 import { UsersSchema, type UsersRecord } from './users';
-import {UserInputCollections} from "./user_input_collections"
+import {UserInputCollections, type CollectionParam} from "./user_input_collections"
+import type { RecordDescription } from './type_helpers';
 
 
-export type Collection = {
+export type CollectionDetails<T extends UserInputCollections> = {
     schema: any, 
-    description: any, 
+    description: RecordDescription<any>, 
     collectionParams: any,
 }
 
-export const collections: Record<string, Collection> = {
+export const collections: Record<UserInputCollections, CollectionDetails<UserInputCollections>> = {
     characters: {
         schema: CharactersSchema,
         description: charactersRecordDescription,

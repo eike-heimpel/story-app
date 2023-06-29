@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import type { RecordDescription } from '$lib/collection_schemas/type_helpers';
-import type { CollectionParam } from "./type_helpers";
+import type { CollectionParam } from "./user_input_collections";
 import {UserInputCollections} from "./user_input_collections";
 
 

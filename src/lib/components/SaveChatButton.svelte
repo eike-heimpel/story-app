@@ -1,28 +1,51 @@
 <script>
   import { fly, fade } from "svelte/transition";
-  import SaveModalContent from "./SaveEntryModalContent.svelte";
+  import SaveModalContent from "$lib/components/SaveEntryModalContent.svelte";
+  import SelectCollectionModal from "$lib/components/SelectCollectionModal.svelte";
   import ModalWrapper from "./ModalWrapper.svelte";
 
   export let chatHistory;
 
   let saveStatus = "";
   let showNotification = false;
-  let showModal = false;
+  let showSaveModal = false;
+  let showCollectionSelectionModal = false;
+  let collectionName;
+  let selectingCollection = false;
 
-  const openSaveModal = () => {
-    showModal = true;
+  const openCollectionSelectionModal = () => {
+    showCollectionSelectionModal = true;
+    selectingCollection = true;
   };
 
-  const closeSaveModal = () => {
-    showModal = false;
+  const closeSaveModal = (fullClose = false) => {
+    showSaveModal = false;
   };
+
+  const closeCollectionSelectionModal = (fullClose = false) => {
+    if (fullClose) {
+      showCollectionSelectionModal = false;
+      return;
+    }
+    showCollectionSelectionModal = false;
+    selectingCollection = false;
+    showSaveModal = true;
+  };
+
+  $: console.log(selectingCollection);
 </script>
 
-<button type="button" on:click={openSaveModal}> Save Entry </button>
+<button on:click={openCollectionSelectionModal}>Save Entry</button>
 
-<ModalWrapper {showModal} closeFunction={closeSaveModal}>
-  <SaveModalContent {closeSaveModal} {chatHistory} />
-</ModalWrapper>
+{#if selectingCollection}
+  <ModalWrapper showModal={showCollectionSelectionModal} closeFunction={closeCollectionSelectionModal}>
+    <SelectCollectionModal bind:collectionName {closeCollectionSelectionModal} />
+  </ModalWrapper>
+{:else}
+  <ModalWrapper showModal={showSaveModal} closeFunction={closeSaveModal}>
+    <SaveModalContent {closeSaveModal} {chatHistory} {collectionName} />
+  </ModalWrapper>
+{/if}
 
 {#if showNotification}
   <div class="notification" in:fly={{ y: -100, duration: 200 }} out:fade>

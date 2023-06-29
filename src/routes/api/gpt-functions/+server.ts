@@ -16,7 +16,6 @@ export const POST = async ({ request, locals }) => {
 
     // Extract the `prompt` from the body of the request
     const { message, collectionName } = await request.json()
-
     const completion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo-0613",
         messages: [
@@ -29,7 +28,9 @@ export const POST = async ({ request, locals }) => {
             collections[collectionName as UserInputCollections].description
         ],
         function_call: {"name": collections[collectionName as UserInputCollections].description.name} // figure out why it does not complain about a wrong description key
-    });
+    })
+
+    console.log(completion)
 
     let completionArguments;
     try {
@@ -37,7 +38,7 @@ export const POST = async ({ request, locals }) => {
         const completionResponse = data.choices[0].message; // Extract the generated completion from the OpenAI API respons
         
         completionArguments = JSON.parse(completionResponse.function_call.arguments); // Extract the argument for the function call
-        console.log( completionArguments)
+        return json(completionArguments)
     } catch (err) {
         console.log(err)
         throw error(422, "unable to process LLM output")

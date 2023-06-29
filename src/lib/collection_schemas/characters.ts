@@ -1,18 +1,19 @@
 import { z } from 'zod';
 import type { RecordDescription } from '$lib/collection_schemas/type_helpers';
-import type { CollectionParam } from "./type_helpers";
+import type { CollectionParam } from "./user_input_collections";
 import {UserInputCollections} from "./user_input_collections";
+import { commonZodFields } from './shared_zod_objects';
 
 export const CharactersSchema = z.object({
-	name: z.string().max(40),
-	one_line_description: z.string().min(5).max(200),
-    age: z.number().int().min(0).max(9999),
-	short_description: z.string().min(200).max(400).optional(),
-	long_description: z.string().min(400).max(4000).optional(),
+	name: commonZodFields.name,
+	one_line_description: commonZodFields.one_line_description,
+    age: commonZodFields.age,
+	short_description: commonZodFields.short_description.optional(),
+	long_description: commonZodFields.long_description.optional(),
+    user: commonZodFields.user.optional(),
 	core_cast: z.boolean().optional(),
 	birthdate: z.string().optional(),
 	plots: z.array(z.string()).optional(),
-	user: z.string().optional()
 });
 
 export type CharactersRecord = z.infer<typeof CharactersSchema>;

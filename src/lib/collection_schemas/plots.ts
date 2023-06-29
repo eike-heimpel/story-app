@@ -1,17 +1,18 @@
 import { z } from 'zod';
 import type { RecordDescription } from '$lib/collection_schemas/type_helpers';
-import type { CollectionParam } from "./type_helpers";
+import type { CollectionParam } from "./user_input_collections";
 import {UserInputCollections} from "./user_input_collections";
+import { commonZodFields } from './shared_zod_objects';
 
 
 export const PlotsSchema = z.object({
-	name: z.string(),
-	one_line_description: z.string(),
-	short_description: z.string().optional(),
-	long_description: z.string().optional(),
+	name: commonZodFields.name,
+	one_line_description: commonZodFields.one_line_description,
+	short_description: commonZodFields.short_description.optional(),
+	long_description: commonZodFields.long_description.optional(),
+    user: commonZodFields.user.optional(),
 	date: z.string().optional(),
 	characters: z.array(z.string()).optional(),
-	user: z.string().optional()
 });
 
 export type PlotsRecord = z.infer<typeof PlotsSchema>;
@@ -40,14 +41,14 @@ export const plotsRecordDescription: PlotsRecordDescription = {
                 "type": "string",
                 "description": "A long description of the plot"
             },
-            "date": {
-                "type": "string", // assuming IsoDateString is string type
-                "description": "The date of the plot"
-            },
-            "characters": {
-                "type": "array", // assuming RecordIdString[] is an array type
-                "description": "The characters involved in the plot"
-            },
+            // "date": {
+            //     "type": "string", // assuming IsoDateString is string type
+            //     "description": "The date of the plot"
+            // },
+            // "characters": {
+            //     "type": "array", // assuming RecordIdString[] is an array type
+            //     "description": "The characters involved in the plot"
+            // },
         },
         "required": ["name", "one_line_description"],
     },

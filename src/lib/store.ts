@@ -1,8 +1,10 @@
-import {writable} from "svelte/store";
+import {writable, type Writable} from "svelte/store";
+import type { UserInputCollections } from "$lib//collection_schemas/user_input_collections";
+import type { InsertCollectionUnion } from "$lib/collection_schemas";
 
+export type UserInputCollectionData = Partial<Record<UserInputCollections, InsertCollectionUnion[]>>;
 
-export const collectionData = writable({}) // need to type this as key can onl ybe collection names and values ony CollectionDataUnion[]
-
+export const collectionData: Writable<UserInputCollectionData> = writable({});
 interface Message {
   role: "user" | "assistant";
   content: string;
