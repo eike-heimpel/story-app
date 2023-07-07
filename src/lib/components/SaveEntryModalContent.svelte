@@ -7,7 +7,8 @@
   export let chatHistory = [];
   export let closeSaveModal;
 
-  export let collectionName;
+  export let collectionName: UserInputCollections;
+
   let llmResponse: InsertCollectionUnion = {};
   let parseErrors = [];
 
