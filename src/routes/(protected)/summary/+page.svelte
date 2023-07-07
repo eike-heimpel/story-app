@@ -22,7 +22,7 @@
         bind:value={selectedCollection}
         class="w-full p-2 bg-dominant-color text-white rounded-md shadow text-center text-4xl"
       >
-        {#each Object.entries(collections) as collectionName, collection}
+        {#each Object.keys(collections) as collectionName}
           <option value={collectionName} class="bg-secondary-color">{collectionName}</option>
         {/each}
       </select>
@@ -31,7 +31,10 @@
       {/if}
     </div>
   </div>
-  <div><ContextList /></div>
+  <div>
+    <h2 class="text-3xl">Context</h2>
+    <ContextList />
+  </div>
   <div class="mt-8">
     <ChatWindow />
   </div>

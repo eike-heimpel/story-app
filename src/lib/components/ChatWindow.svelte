@@ -1,8 +1,29 @@
 <script lang="ts">
   import SaveChatButton from "$lib/components/SaveChatButton.svelte";
-  import { selectedContextInfo, currentMessages, chatHistory } from "$lib/store";
+  import { collectionData, currentMessages, chatHistory } from "$lib/store";
+  import type { UserInputCollections } from "$lib/collection_schemas/user_input_collections.js";
   import { useChat } from "ai/svelte";
   const { handleSubmit, messages, input } = useChat();
+
+  type ContextItem = {
+    collection: UserInputCollections;
+    [contextField: string]: string;
+  };
+
+  let selectedContextInfo: ContextItem[];
+
+  $: {
+    selectedContextInfo = [];
+    for (let collection of Object.keys($collectionData)) {
+      for (let entry of $collectionData[collection]) {
+        if (entry.contextInfo && entry.contextInfo.inContext) {
+          let newEntry: ContextItem = { collection: collection as UserInputCollections };
+          newEntry[entry.contextInfo.contextField] = entry.data[entry.contextInfo.contextField];
+          selectedContextInfo.push(newEntry);
+        }
+      }
+    }
+  }
 
   export let generationSite = "";
   export let history = false;
@@ -12,7 +33,7 @@
 
   function send(e) {
     if (firstSubmit) {
-      $messages = [{ role: "user", content: JSON.stringify($selectedContextInfo) }]; // context becomes index 0, we will not display it to the user below
+      $messages = [{ role: "user", content: JSON.stringify(selectedContextInfo) }]; // context becomes index 0, we will not display it to the user below
       firstSubmit = false;
     }
     $input = myInput;
@@ -36,7 +57,7 @@
     class="bg-secondary-color text-white"
     on:click={() => {
       console.log("clearing chat messages");
-      $messages = [{ role: "user", content: JSON.stringify($selectedContextInfo) }];
+      $messages = [{ role: "user", content: JSON.stringify(selectedContextInfo) }];
       console.log($messages);
     }}
     >Clear Chat
@@ -97,13 +118,13 @@
 
   .user,
   .assistant {
-    @apply bg-white text-black my-2 max-w-md rounded p-2;
+    @apply my-2 max-w-md rounded bg-white p-2 text-black;
   }
   .user {
     @apply ml-2 mr-auto;
   }
 
   .assistant {
-    @apply mr-2 ml-auto;
+    @apply ml-auto mr-2;
   }
 </style>

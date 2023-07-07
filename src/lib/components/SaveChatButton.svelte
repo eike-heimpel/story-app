@@ -31,8 +31,6 @@
     selectingCollection = false;
     showSaveModal = true;
   };
-
-  $: console.log(selectingCollection);
 </script>
 
 <button on:click={openCollectionSelectionModal}>Save Entry</button>

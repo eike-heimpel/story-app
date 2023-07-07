@@ -60,9 +60,9 @@
   }
 
   async function addEntry() {
-    closeSaveModal();
     $loadingInfo.loading = true;
     $loadingInfo.message = `saving to ${collectionName} collection`;
+    closeSaveModal();
     fetch("/api/collections", {
       method: "POST",
       headers: {
@@ -72,11 +72,19 @@
     })
       .then((response) => response.json())
       .then((data) => {
-        $collectionData[collectionName as UserInputCollections] = [
-          llmResponse,
-          ...$collectionData[collectionName as UserInputCollections],
-        ];
-        console.log("saved");
+        $collectionData = {
+          ...$collectionData,
+          [collectionName]: [
+            {
+              data: llmResponse,
+              contextInfo: {
+                inContext: false,
+                contextField: "",
+              },
+            },
+            ...$collectionData[collectionName],
+          ],
+        };
       })
       .catch((error) => {
         $loadingInfo.message = "failed";

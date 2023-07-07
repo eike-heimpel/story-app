@@ -13,8 +13,9 @@
 
   afterUpdate(() => {
     if (selectedButton !== previousButton) {
-      dispatch("buttonClick", { descriptionType: selectedButton });
       previousButton = selectedButton;
+
+      dispatch("buttonClick", { descriptionType: selectedButton });
     }
   });
 
@@ -22,8 +23,8 @@
     previousButton = "";
   });
 
-  const selectButton = (descriptionType) => {
-    selectedButton = selectedButton === descriptionType ? null : descriptionType;
+  const selectButton = (descriptionType: string) => {
+    selectedButton = selectedButton === descriptionType ? "" : descriptionType;
     dispatch("buttonClick", { descriptionType: selectedButton });
   };
 </script>
