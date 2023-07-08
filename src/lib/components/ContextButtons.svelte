@@ -31,12 +31,20 @@
 </script>
 
 <div class="flex justify-evenly gap-1 p-2" class:flex-col={flexCol}>
-  <Button variant="outline" on:click={() => selectButton("long_description")}>Long</Button>
+  <Button
+    variant={selectedButton === "long_description" ? "default" : "outline"}
+    on:click={() => selectButton("long_description")}>Long</Button
+  >
 
-  <Button variant="outline" on:click={() => selectButton("short_description")}>Short</Button>
+  <Button
+    variant={selectedButton === "short_description" ? "default" : "outline"}
+    on:click={() => selectButton("short_description")}>Short</Button
+  >
 
-  <Button variant="outline" class="whitespace-nowrap" on:click={() => selectButton("one_line_description")}
-    >1-line</Button
+  <Button
+    variant={selectedButton === "one_line_description" ? "default" : "outline"}
+    class="whitespace-nowrap"
+    on:click={() => selectButton("one_line_description")}>1-line</Button
   >
 </div>
 
