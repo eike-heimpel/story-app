@@ -3,6 +3,7 @@
   import { loadingInfo, collectionData } from "$lib/store";
   import type { CollectionPramUnion } from "$lib/collection_schemas";
   import ContextButtons from "$lib/components/ContextButtons.svelte";
+  import { Skeleton } from "$components/ui/skeleton";
 
   export let collectionParams: CollectionPramUnion;
 
@@ -35,7 +36,17 @@
   $: if (collectionParams) loadContext();
 </script>
 
-{#if !$loadingInfo.loading}
+{#if $loadingInfo.loading}
+  {#each [1, 2, 3] as _}
+    <div class="flex items-center space-x-4 mt-10">
+      <Skeleton class="h-12 w-12 rounded-full" />
+      <div class="space-y-2">
+        <Skeleton class="h-4 w-[250px]" />
+        <Skeleton class="h-4 w-[200px]" />
+      </div>
+    </div>
+  {/each}
+{:else}
   <div>
     <ContextButtons on:buttonClick={handleButtonClick} selectedButton={selectAll} flexCol={false} />
 

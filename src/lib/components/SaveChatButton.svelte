@@ -3,6 +3,7 @@
   import SaveModalContent from "$lib/components/SaveEntryModalContent.svelte";
   import SelectCollectionModal from "$lib/components/SelectCollectionModal.svelte";
   import ModalWrapper from "./ModalWrapper.svelte";
+  import { Button } from "$lib/components/ui/button";
 
   export let chatHistory;
 
@@ -33,7 +34,7 @@
   };
 </script>
 
-<button on:click={openCollectionSelectionModal}>Save Entry</button>
+<Button variant="outline" on:click={openCollectionSelectionModal}>Save Entry</Button>
 
 {#if selectingCollection}
   <ModalWrapper showModal={showCollectionSelectionModal} closeFunction={closeCollectionSelectionModal}>

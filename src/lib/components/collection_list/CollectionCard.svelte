@@ -1,6 +1,7 @@
 <script lang="ts">
   import { collectionData } from "$lib/store";
   import type { CollectionPramUnion, InsertCollectionUnion } from "$lib/collection_schemas";
+  import { fade } from "svelte/transition";
 
   import ContextButtons from "$lib/components/ContextButtons.svelte";
 
@@ -18,7 +19,7 @@
   };
 </script>
 
-<div class="bg-secondary-color p-4 shadow rounded-lg flex justify-between">
+<div class="bg-secondary p-4 shadow rounded-lg flex justify-between" transition:fade>
   <div>
     <h3 class="text-left p-2 text-xl">
       {#each collectionParams.headlineFields as headlineField, index (headlineField)}
@@ -34,6 +35,6 @@
 
 <style>
   button {
-    @apply text-white;
+    @apply;
   }
 </style>

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { useChat } from "ai/svelte";
   const { handleSubmit, messages } = useChat();
+  import { Button } from "$lib/components/ui/button";
 
   export let generationSite = "";
   export let context: string = "";
@@ -33,8 +34,8 @@
 
 <div class="input">
   <form on:submit={handleSubmit}>
-    <textarea class="bg-secondary-color text-white text-xl rounded p-2 w-full" rows="3" bind:value={finalMessage} />
-    <button type="submit" disabled={localMessage === ""}>Send</button>
+    <textarea class="bg-secondary text-xl rounded p-2 w-full" rows="3" bind:value={finalMessage} />
+    <Button type="submit" disabled={localMessage === ""}>Send</Button>
   </form>
 </div>
 

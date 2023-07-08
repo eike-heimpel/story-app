@@ -29,7 +29,7 @@
       {#each options as option (option)}
         <label
           class="px-4 py-2 border cursor-pointer text-black
-          {option === selectedOption ? 'bg-accent-color' : 'bg-secondary-color'}"
+          {option === selectedOption ? 'bg-accent' : 'bg-secondary'}"
         >
           <input type="radio" bind:group={selectedOption} value={option} class="hidden" />
           {option}
@@ -40,7 +40,7 @@
     <input type="hidden" bind:value={selectedOption} name="collectionName" />
     {#each inputs[selectedOption] as input (input.name)}
       <!-- svelte-ignore a11y-label-has-associated-control -->
-      <label class="block font-medium pb-1 text-white">
+      <label class="block font-medium pb-1">
         <Input id={input.name} label={input.name} required={!input.optional} type={input.type} />
       </label>
     {/each}

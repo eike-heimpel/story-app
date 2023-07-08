@@ -3,6 +3,7 @@
   import type { InsertCollectionUnion } from "$lib/collection_schemas";
   import { collections } from "$lib/collection_schemas";
   import type { UserInputCollections } from "$lib/collection_schemas/user_input_collections.js";
+  import { Button } from "$lib/components/ui/button";
 
   export let chatHistory = [];
   export let closeSaveModal;
@@ -99,7 +100,7 @@
   }
 </script>
 
-<div class="bg-dominant-color p-4 sm:p-6 sm:pb-4">
+<div class="bg-primary p-4 sm:p-6 sm:pb-4">
   <div class="sm:flex sm:items-start">
     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
       {#if Object.keys(llmResponse).length !== 0}
@@ -115,17 +116,17 @@
             <p>Dont worry, you can still insert the data. (needs edit button)</p>
           {/if}
         </div>
-        <button on:click={addEntry}>Insert</button>
+        <Button on:click={addEntry}>Insert</Button>
       {:else if $loadingInfo.loading}<div class="text-center p-5">loading response</div>
       {:else}
-        <h3 class="text-lg leading-6 font-medium text-white" id="modal-title">Choose an option:</h3>
-        <button class="white-button" on:click={() => getFormFromLLM(false)}>Create New Entry From Last Message</button>
-        <button class="white-button" on:click={() => getFormFromLLM(true)}>Create New Entry From Chat History</button>
-        <button class="white-button" on:click={saveChat}>Save Chat History</button>
+        <h3 class="text-lg leading-6 font-medium" id="modal-title">Choose an option:</h3>
+        <Button on:click={() => getFormFromLLM(false)}>Create New Entry From Last Message</Button>
+        <Button on:click={() => getFormFromLLM(true)}>Create New Entry From Chat History</Button>
+        <Button on:click={saveChat}>Save Chat History</Button>
       {/if}
     </div>
   </div>
 </div>
-<div class="bg-dominant-color px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-  <button type="button" on:click={closeSaveModal}>Close</button>
+<div class="bg-primary px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+  <Button type="button" on:click={closeSaveModal}>Close</Button>
 </div>

@@ -14,9 +14,9 @@
 </script>
 
 <div>
-  <span class="dot bg-accent-color" class:visible={dots > 0 ? "visible" : ""} />
-  <span class="dot bg-accent-color" class:visible={dots > 1 ? "visible" : ""} />
-  <span class="dot bg-accent-color" class:visible={dots > 2 ? "visible" : ""} />
+  <span class="dot bg-accent" class:visible={dots > 0 ? "visible" : ""} />
+  <span class="dot bg-accent" class:visible={dots > 1 ? "visible" : ""} />
+  <span class="dot bg-accent" class:visible={dots > 2 ? "visible" : ""} />
 </div>
 
 <style>

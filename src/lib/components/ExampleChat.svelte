@@ -1,5 +1,6 @@
 <script>
   import { useChat } from "ai/svelte";
+  import { Button } from "$lib/components/ui/button";
 
   const { input, handleSubmit, messages } = useChat();
 </script>
@@ -18,7 +19,7 @@
   </ul>
   <form on:submit={handleSubmit}>
     <input bind:value={$input} />
-    <button type="submit">Send</button>
+    <Button variant="default" type="submit">Send</Button>
   </form>
 </section>
 

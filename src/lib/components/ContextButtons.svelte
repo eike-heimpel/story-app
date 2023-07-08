@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher, onMount, afterUpdate, onDestroy } from "svelte";
+  import { Button } from "$lib/components/ui/button";
 
   const dispatch = createEventDispatcher();
   export let selectedButton = "";
@@ -30,40 +31,14 @@
 </script>
 
 <div class="flex justify-evenly gap-1 p-2" class:flex-col={flexCol}>
-  <button
-    class="bg-dominant-color"
-    class:selected={selectedButton === "long_description"}
-    on:click={() => selectButton("long_description")}
-  >
-    Long
-  </button>
+  <Button variant="outline" on:click={() => selectButton("long_description")}>Long</Button>
 
-  <button
-    class="bg-dominant-color"
-    class:selected={selectedButton === "short_description"}
-    on:click={() => selectButton("short_description")}
-  >
-    Short
-  </button>
+  <Button variant="outline" on:click={() => selectButton("short_description")}>Short</Button>
 
-  <button
-    class="whitespace-nowrap bg-dominant-color"
-    class:selected={selectedButton === "one_line_description"}
-    on:click={() => selectButton("one_line_description")}
+  <Button variant="outline" class="whitespace-nowrap" on:click={() => selectButton("one_line_description")}
+    >1-line</Button
   >
-    1-line
-  </button>
 </div>
 
 <style>
-  .selected {
-    @apply bg-accent-color text-black;
-  }
-  button {
-    @apply text-white;
-  }
-
-  button:hover {
-    @apply text-black;
-  }
 </style>
