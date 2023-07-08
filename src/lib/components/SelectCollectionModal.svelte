@@ -1,28 +1,33 @@
 <script lang="ts">
-  import { loadingInfo, collectionData } from "$lib/store";
+  import { Button, buttonVariants } from "$components/ui/button";
+  import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+  } from "$components/ui/dialog";
+  import SaveEntryModal from "$components/SaveEntryModal.svelte";
   import type { InsertCollectionUnion } from "$lib/collection_schemas";
-  import { collections } from "$lib/collection_schemas";
-  import type { UserInputCollections } from "$lib/collection_schemas/user_input_collections.js";
-  import { Button } from "$lib/components/ui/button";
 
-  export let closeCollectionSelectionModal;
-  export let collectionName;
+  import { collections } from "$lib/collection_schemas";
+
+  export let chatHistory;
 </script>
 
-<div class="bg-primary p-4 sm:p-6 sm:pb-4">
-  <div class="sm:flex sm:items-start">
-    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-      {#each Object.keys(collections) as collectionNameOption}
-        <Button
-          on:click={() => {
-            collectionName = collectionNameOption;
-            closeCollectionSelectionModal();
-          }}>{collectionNameOption}</Button
-        >
+<Dialog modal={true}>
+  <DialogTrigger class={buttonVariants({ variant: "outline" })}>Save Chat</DialogTrigger>
+  <DialogContent class="sm:max-w-[425px]">
+    <DialogHeader>
+      <DialogTitle>Select a Collection</DialogTitle>
+    </DialogHeader>
+
+    <div class="flex flex-col gap-2 mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+      {#each Object.keys(collections) as collectionName}
+        <SaveEntryModal id={collectionName} {collectionName} {chatHistory} />
       {/each}
     </div>
-  </div>
-</div>
-<div class="bg-primary px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-  <Button type="button" on:click={() => closeCollectionSelectionModal(true)}>Close</Button>
-</div>
+  </DialogContent>
+</Dialog>

@@ -6,6 +6,7 @@
   import type { PageData } from "./$types";
   import InfoCenter from "$lib/components/InfoCenter.svelte";
   import { Button } from "$lib/components/ui/button";
+  import toast, { Toaster } from "svelte-french-toast";
 
   import { Avatar, AvatarFallback, AvatarImage } from "$lib/components/ui/avatar";
 
@@ -14,17 +15,17 @@
   let selected = "";
   const navItems = ["characters", "plot", "insert", "summary"];
 
-  try {
-    const routeName = $page.route.id.replace("/", "");
-    if (navItems.includes(routeName)) {
-      selected = routeName;
-    }
-  } catch {}
+  if ($page.route.id.includes(`/login`)) selected = "login";
 
-  const handleClick = (item) => () => {
-    selected = item;
-  };
+  for (const item of navItems) {
+    if ($page.route.id.includes(`/${item}`)) {
+      selected = item;
+      break;
+    }
+  }
 </script>
+
+<Toaster />
 
 <div>
   <nav class="my-10 ml-20 mr-20 rounded-2xl p-3 flex justify-evenly items-center flex-wrap gap-2 bg-secondary">
@@ -34,16 +35,14 @@
           {item[0].toUpperCase() + item.slice(1)}
         </Button>
       {:else}
-        <Button href="/{item}" variant="outline" class="bg-muted text-muted-foreground" on:click={handleClick(item)}>
+        <Button href="/{item}" variant="outline" class="bg-muted text-muted-foreground">
           {item[0].toUpperCase() + item.slice(1)}
         </Button>
       {/if}
     {/each}
 
     {#if !data.user}
-      <Button href="/login" variant={selected !== "login" ? "outline" : "default"} on:click={handleClick("login")}
-        >log in</Button
-      >
+      <Button href="/login" variant={selected !== "login" ? "outline" : "default"}>log in</Button>
     {:else}
       <form action="/logout" method="POST">
         <Button variant="outline">Logout</Button>

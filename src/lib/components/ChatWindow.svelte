@@ -2,7 +2,9 @@
   import SaveChatButton from "$lib/components/SaveChatButton.svelte";
   import { collectionData, currentMessages, chatHistory } from "$lib/store";
   import { Button } from "$lib/components/ui/button";
-  import toast, { Toaster } from "svelte-french-toast";
+  import toast from "svelte-french-toast";
+  import SelectCollectionModal from "$components/SelectCollectionModal.svelte";
+  import SaveEntryModal from "$components/SaveEntryModal.svelte";
 
   import type { UserInputCollections } from "$lib/collection_schemas/user_input_collections.js";
   import { useChat } from "ai/svelte";
@@ -44,8 +46,6 @@
   }
 </script>
 
-<Toaster />
-
 <div class="chat-container">
   {#each $messages as message, i (message.id)}
     {#if i !== 0}
@@ -69,6 +69,7 @@
     }}>Clear Chat</Button
   >
 
+  <SelectCollectionModal {chatHistory} />
   <SaveChatButton chatHistory={$messages} />
 </div>
 
