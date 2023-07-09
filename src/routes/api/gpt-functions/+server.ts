@@ -31,8 +31,6 @@ export const POST = async ({ request, locals }) => {
     function_call: { name: collections[collectionName as UserInputCollections].description.name }, // figure out why it does not complain about a wrong description key
   });
 
-  console.log(completion);
-
   let completionArguments;
   try {
     const data = await completion.json();
