@@ -1,22 +1,19 @@
-import type { PageServerLoad } from "./$types";
-import { error, redirect } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 
 export const actions = {
-  default: async ({ request, locals }) => {
+  default: async ({ request, url, locals: { supabase } }) => {
     const body = Object.fromEntries(await request.formData());
 
-    try {
-      const auth = await locals.pb.collection("users").authWithPassword(body.userName, body.password);
-      if (!locals.pb?.authStore?.model?.verified) {
-        locals.pb.authStore.clear();
-        return {
-          notVerified: true,
-        };
-      }
-    } catch (err) {
-      console.log("Error: ", err);
-      throw error(500, `Something went wrong logging in: ${err}`);
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: body.email as string,
+      password: body.password as string,
+    });
+
+    if (error) {
+      return fail(500, { message: "Server error. Try again later.", success: false, email });
     }
-    throw redirect(303, "/");
+
+    console.log("logged in");
+    throw redirect(307, "/summary");
   },
 };

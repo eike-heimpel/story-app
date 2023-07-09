@@ -6,14 +6,7 @@
 
 <div>
   <div class="max-width-2000px mx-auto">
-    {#if !data.user}
-      <div class="flex justify-center m-5 gap-10">
-        Please Log in to view content
-        <button><a href="/login"> log in </a></button>
-      </div>
-    {:else}
-      <slot />
-    {/if}
+    <slot />
   </div>
 </div>
 

@@ -1,23 +1,30 @@
-import PocketBase from "pocketbase";
-import { serializeNonPOJOs } from "$lib/utils";
+// src/hooks.server.ts
+import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from "$env/static/public";
+import { createSupabaseServerClient } from "@supabase/auth-helpers-sveltekit";
+import type { Handle } from "@sveltejs/kit";
 
-export const handle = async ({ event, resolve }) => {
-  event.locals.pb = new PocketBase("https://yummy-story.pockethost.io");
-  event.locals.pb.authStore.loadFromCookie(event.request.headers.get("cookie") || "");
-  try {
-    if (event.locals.pb.authStore.isValid) {
-      await event.locals.pb.collection("users").authRefresh();
-      event.locals.user = serializeNonPOJOs(event.locals.pb.authStore.model);
-    }
-  } catch (err) {
-    console.log(err);
-    event.locals.pb.authStore.clear();
-    event.locals.user = undefined;
-  }
+export const handle: Handle = async ({ event, resolve }) => {
+  event.locals.supabase = createSupabaseServerClient({
+    supabaseUrl: PUBLIC_SUPABASE_URL,
+    supabaseKey: PUBLIC_SUPABASE_ANON_KEY,
+    event,
+  });
 
-  const response = await resolve(event);
+  /**
+   * a little helper that is written for convenience so that instead
+   * of calling `const { data: { session } } = await supabase.auth.getSession()`
+   * you just call this `await getSession()`
+   */
+  event.locals.getSession = async () => {
+    const {
+      data: { session },
+    } = await event.locals.supabase.auth.getSession();
+    return session;
+  };
 
-  response.headers.set("set-cookie", event.locals.pb.authStore.exportToCookie());
-
-  return response;
+  return resolve(event, {
+    filterSerializedResponseHeaders(name) {
+      return name === "content-range";
+    },
+  });
 };

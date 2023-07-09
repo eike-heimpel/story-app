@@ -1,8 +1,7 @@
-import { redirect } from '@sveltejs/kit';
+import { redirect } from "@sveltejs/kit";
 
-export const POST = ({ locals }) => {
-	locals.pb.authStore.clear();
-	locals.user = undefined;
-
-	throw redirect(303, '/login');
+export const POST = async ({ locals }) => {
+  await locals.supabase.auth.signOut();
+  console.log("logged out");
+  throw redirect(303, "/login");
 };

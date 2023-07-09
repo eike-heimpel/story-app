@@ -3,25 +3,40 @@
   import { page } from "$app/stores";
   import "../app.postcss";
 
-  import type { PageData } from "./$types";
+  import { invalidate } from "$app/navigation";
+  import { onMount } from "svelte";
+
   import { Button } from "$lib/components/ui/button";
-  import toast, { Toaster } from "svelte-french-toast";
+  import { Toaster } from "svelte-french-toast";
 
-  import { Avatar, AvatarFallback, AvatarImage } from "$lib/components/ui/avatar";
+  export let data;
 
-  export let data: PageData;
+  let { supabase, session } = data;
+  $: ({ supabase, session } = data);
+
+  onMount(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, _session) => {
+      if (_session?.expires_at !== session?.expires_at) {
+        invalidate("supabase:auth");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  });
 
   let selected = "";
   const navItems = ["characters", "plot", "insert", "summary", "admin", "logout"];
 
-  $: if ($page.route.id.includes(`/login`)) selected = "login";
+  // $: if ($page.route.id.includes(`/login`)) selected = "login";
 
-  $: for (const item of navItems) {
-    if ($page.route.id.includes(`/${item}`)) {
-      selected = item;
-      break;
-    }
-  }
+  // $: for (const item of navItems) {
+  //   if ($page.route.id.includes(`/${item}`)) {
+  //     selected = item;
+  //     break;
+  //   }
+  // }
 </script>
 
 <Toaster />

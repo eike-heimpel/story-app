@@ -1,11 +1,6 @@
-export const load = ({ locals }) => {
-	if (locals.user) {
-		return {
-			user: locals.user
-		};
-	}
-
-	return {
-		user: undefined
-	};
+// src/routes/+layout.server.ts
+export const load = async ({ locals: { getSession } }) => {
+  return {
+    session: await getSession(),
+  };
 };

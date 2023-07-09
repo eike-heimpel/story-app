@@ -1,0 +1,73 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Character {
+  id                  String   @id @default(uuid())
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  name                String
+  oneLineDescription  String
+  shortDescription    String?
+  longDescription     String?
+  coreCast            Boolean?
+  age                 Int
+  birthdate           DateTime?
+  plots               Plot[]
+  userId              String?
+  user                User?    @relation(fields: [userId], references: [id])
+}
+
+model Plot {
+  id                  String   @id @default(uuid())
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  name                String
+  oneLineDescription  String
+  shortDescription    String?
+  longDescription     String?
+  date                DateTime?
+  characters          Character[]
+  userId              String?
+  user                User?    @relation(fields: [userId], references: [id])
+}
+
+model PreviousChat {
+  id                  String   @id @default(uuid())
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  messages            Json?
+  userId              String?
+  user                User?    @relation(fields: [userId], references: [id])
+}
+
+model PromptInfo {
+  id                  String   @id @default(uuid())
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  systemMessage       String
+  summary             String?
+  userId              String
+  user                User     @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id                  String   @id @default(uuid())
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  email               String   @unique
+  emailVisibility     Boolean
+  username            String   @unique
+  verified            Boolean
+  name                String?
+  avatar              String?
+  characters          Character[]
+  plots               Plot[]
+  previousChats       PreviousChat[]
+  promptInfos         PromptInfo[]
+}

@@ -1,11 +1,9 @@
-export const load = ({ locals }) => {
-	if (locals.user) {
-		return {
-			user: locals.user
-		};
-	}
+import { error, fail } from "@sveltejs/kit";
 
-	return {
-		user: undefined
-	};
+export const load = async ({ locals }) => {
+  const session = await locals.getSession();
+
+  if (!session) {
+    throw error(401, { message: "Unauthorized" });
+  }
 };
