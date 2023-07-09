@@ -1,7 +1,7 @@
 <script>
   import { fly, fade } from "svelte/transition";
-  import SaveModalContent from "$lib/components/SaveEntryModalContent.svelte";
-  import SelectCollectionModal from "$lib/components/SelectCollectionModal.svelte";
+  import SaveEntryModalContent from "$lib/components/SaveEntryModalContent.svelte";
+  import SelectCollectionModal from "$components/SelectCollectionModal.svelte";
   import ModalWrapper from "./ModalWrapper.svelte";
   import { Button } from "$lib/components/ui/button";
 
@@ -42,7 +42,7 @@
   </ModalWrapper>
 {:else}
   <ModalWrapper showModal={showSaveModal} closeFunction={closeSaveModal}>
-    <SaveModalContent {closeSaveModal} {chatHistory} {collectionName} />
+    <SaveEntryModalContent {closeSaveModal} {chatHistory} {collectionName} />
   </ModalWrapper>
 {/if}
 

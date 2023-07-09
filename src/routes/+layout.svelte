@@ -31,7 +31,7 @@
   <nav class="my-10 ml-20 mr-20 rounded-2xl p-3 flex justify-evenly items-center flex-wrap gap-2 bg-secondary">
     {#each navItems as item (item)}
       {#if selected === item}
-        <Button href="/{item}" on:click={handleClick(item)}>
+        <Button href="/{item}">
           {item[0].toUpperCase() + item.slice(1)}
         </Button>
       {:else}
