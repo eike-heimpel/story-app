@@ -1,8 +1,8 @@
 <script>
   import { fly, fade } from "svelte/transition";
-  import SaveEntryModalContent from "$lib/components/SaveEntryModalContent.svelte";
-  import SelectCollectionModal from "$components/SelectCollectionModal.svelte";
-  import ModalWrapper from "./ModalWrapper.svelte";
+  import SaveEntryModalContent from "$components/saveEntryFromLLM/SaveEntryModalContent.svelte";
+  import SelectCollectionModal from "$components/saveEntryFromLLM/SelectCollectionModal.svelte";
+  import ModalWrapper from "../ModalWrapper.svelte";
   import { Button } from "$lib/components/ui/button";
 
   export let chatHistory;

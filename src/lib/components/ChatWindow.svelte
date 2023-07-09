@@ -1,5 +1,5 @@
 <script lang="ts">
-  import SaveChatButton from "$lib/components/SaveChatButton.svelte";
+  import SaveChatButton from "$components/saveEntryFromLLM/SaveChatButton.svelte";
   import { collectionData, currentMessages, chatHistory } from "$lib/store";
   import { Button } from "$lib/components/ui/button";
   import toast from "svelte-french-toast";
@@ -60,7 +60,6 @@
     on:click={() => {
       console.log("clearing chat messages");
       $messages = [{ role: "user", content: JSON.stringify(selectedContextInfo) }];
-      console.log($messages);
       toast.success("cleared", {
         style: "background: black;",
       });

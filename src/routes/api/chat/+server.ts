@@ -1,6 +1,8 @@
 import { Configuration, OpenAIApi } from "openai-edge";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
+import { json } from "@sveltejs/kit";
+
 import { env } from "$env/dynamic/private";
 // You may want to replace the above with a static private env variable
 // for dead-code elimination and build-time type-checking:
@@ -14,20 +16,24 @@ const config = new Configuration({
 });
 const openai = new OpenAIApi(config);
 
-export const POST = (async ({ request }) => {
-  // Extract the `prompt` from the body of the request
+export const POST = (async ({ request, locals }) => {
   const { messages } = await request.json();
 
-  // "Here is a summary of the story so far:
-  // SUMMARY:
-  // In 'The Chronicles of Sunnyside,'
-  // a close-knit village faces various challenges, with each narrative highlighting the unique abilities and personalities of its residents.
-  // The vibrant characters range from Evelyn, the wise elder, to Samuel, the diligent carpenter, each providing a unique skill set and perspective that contributes to the prosperity of Sunnyside.
-  // As they navigate severe droughts, harsh winters, and missing pets, they learn to leverage their shared histories and individual strengths to overcome hardship.
-  // This heartwarming novel unfolds against a backdrop of camaraderie, adventure, and the resilience of the human spirit, exploring the power of unity and friendship in the face of adversity."
-  // ------
-  let baseMessage = `
+  if (!locals.pb) {
+    return json({ message: "could not get promt info from DB, because there was no DB connection" });
+  }
 
+  const collectionData = await locals.pb.collection("prompt_info").getFullList({
+    sort: "-created",
+  });
+
+  const promptInfo = collectionData[0];
+
+  let baseMessage = `
+  Here is a summary of our story so far. 
+  SUMMARY:
+  ${promptInfo.summary}
+  ____
   Here is some additional context. This is not all the context that exists, just what the user chose to include.
   CONTEXT
   -----
@@ -39,7 +45,7 @@ export const POST = (async ({ request }) => {
   }));
 
   let finalMessages = [
-    { role: "system", content: "You are assisting our user to write stories." },
+    { role: "system", content: promptInfo.system_message },
     { role: "user", content: baseMessage },
   ];
 

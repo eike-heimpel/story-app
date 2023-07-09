@@ -38,7 +38,6 @@
             parseErrors = result.error.issues;
             console.log(JSON.stringify(parseErrors));
           }
-          console.log(llmResponse);
         })
         .catch((error) => {
           $loadingInfo.message = "failed";

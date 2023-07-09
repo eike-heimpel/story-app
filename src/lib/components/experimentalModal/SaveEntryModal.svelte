@@ -10,7 +10,7 @@
     DialogTrigger,
   } from "$components/ui/dialog";
   import toast from "svelte-french-toast";
-  import LlmInsertModal from "$components/LlmInsertModal.svelte";
+  import LlmInsertModal from "$components/experimentalModal/LlmInsertModal.svelte";
   import { loadingInfo, collectionData } from "$lib/store";
   import type { InsertCollectionUnion } from "$lib/collection_schemas";
   import { collections } from "$lib/collection_schemas";
@@ -43,7 +43,6 @@
           parseErrors = result.error.issues;
           console.log(JSON.stringify(parseErrors));
         }
-        console.log(llmResponse);
         $loadingInfo.loading = false;
       })
       .catch((error) => {
