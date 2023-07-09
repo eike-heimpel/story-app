@@ -2,6 +2,7 @@
   import { collectionData } from "$lib/store";
   import CollectionCard from "$lib/components/collection_list/CollectionCard.svelte";
   import { collections } from "$lib/collection_schemas";
+  import { Button } from "$lib/components/ui/button";
 
   export let selectAll: string;
 
@@ -38,7 +39,9 @@
   }
 </script>
 
-<button on:click={resetContext}> Reset Context </button>
+<div class="flex justify-center">
+  <Button variant="outline" class="mb-4 text-center" on:click={resetContext}>Reset Context</Button>
+</div>
 
 {#if contextCollections.length > 0}
   <div class="space-y-6">
@@ -56,5 +59,5 @@
     {/each}
   </div>
 {:else}
-  <p>No cards available in context.</p>
+  <p class="text-center mt-8">No cards available in context.</p>
 {/if}

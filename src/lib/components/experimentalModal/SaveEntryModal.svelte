@@ -1,16 +1,26 @@
 <script lang="ts">
+  import { Button, buttonVariants } from "$components/ui/button";
+  import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+  } from "$components/ui/dialog";
+  import toast from "svelte-french-toast";
+  import LlmInsertModal from "$components/experimentalModal/LlmInsertModal.svelte";
   import { loadingInfo, collectionData } from "$lib/store";
   import type { InsertCollectionUnion } from "$lib/collection_schemas";
   import { collections } from "$lib/collection_schemas";
   import type { UserInputCollections } from "$lib/collection_schemas/user_input_collections.js";
 
-  export let chatHistory = [];
-  export let closeSaveModal;
-
+  export let chatHistory: any = [];
   export let collectionName: UserInputCollections;
 
   let llmResponse: InsertCollectionUnion = {};
-  let parseErrors = [];
+  let parseErrors: any = [];
 
   function getFormFromLLM(fromHistory = false) {
     const message = fromHistory ? chatHistory : chatHistory[chatHistory.length - 1].content;
@@ -33,7 +43,6 @@
           parseErrors = result.error.issues;
           console.log(JSON.stringify(parseErrors));
         }
-        console.log(llmResponse);
         $loadingInfo.loading = false;
       })
       .catch((error) => {
@@ -63,7 +72,6 @@
   async function addEntry() {
     $loadingInfo.loading = true;
     $loadingInfo.message = `saving to ${collectionName} collection`;
-    closeSaveModal();
     fetch("/api/collections", {
       method: "POST",
       headers: {
@@ -99,33 +107,14 @@
   }
 </script>
 
-<div class="bg-dominant-color p-4 sm:p-6 sm:pb-4">
-  <div class="sm:flex sm:items-start">
-    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-      {#if Object.keys(llmResponse).length !== 0}
-        <div class="p-5">
-          {JSON.stringify(llmResponse)}
-        </div>
-        <div>
-          <h3>Errors</h3>
-          {#if parseErrors}
-            {#each parseErrors as error}
-              {error.path[0]}: {error.message}
-            {/each}
-            <p>Dont worry, you can still insert the data. (needs edit button)</p>
-          {/if}
-        </div>
-        <button on:click={addEntry}>Insert</button>
-      {:else if $loadingInfo.loading}<div class="text-center p-5">loading response</div>
-      {:else}
-        <h3 class="text-lg leading-6 font-medium text-white" id="modal-title">Choose an option:</h3>
-        <button class="white-button" on:click={() => getFormFromLLM(false)}>Create New Entry From Last Message</button>
-        <button class="white-button" on:click={() => getFormFromLLM(true)}>Create New Entry From Chat History</button>
-        <button class="white-button" on:click={saveChat}>Save Chat History</button>
-      {/if}
-    </div>
-  </div>
-</div>
-<div class="bg-dominant-color px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-  <button type="button" on:click={closeSaveModal}>Close</button>
-</div>
+<Dialog modal={true}>
+  <DialogTrigger class={buttonVariants({ variant: "outline" })}>{collectionName}</DialogTrigger>
+  <DialogContent class="sm:max-w-[425px]">
+    <DialogHeader>
+      <DialogTitle>Save Entry</DialogTitle>
+    </DialogHeader>
+    <LlmInsertModal id="hello">Create New Entry From Last Message</LlmInsertModal>
+    <LlmInsertModal id="hello2">Create New Entry From Chat History</LlmInsertModal>
+    <LlmInsertModal id="hello3">Save Chat History</LlmInsertModal>
+  </DialogContent>
+</Dialog>

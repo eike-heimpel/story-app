@@ -19,17 +19,17 @@
 
 <style>
   nav a {
-    @apply text-2xl bg-dominant-color p-3 rounded-lg text-center;
+    @apply rounded-lg bg-primary p-3 text-center text-2xl;
     text-decoration: none;
     /* transition: color 0.2s ease-in-out; */
   }
 
   nav a:hover:not(.selected) {
-    @apply text-accent-color;
+    @apply text-accent;
   }
 
   .selected {
-    @apply bg-accent-color text-dominant-color;
+    @apply bg-accent text-primary-foreground;
   }
 
   .max-width-2000px {

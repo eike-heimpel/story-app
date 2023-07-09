@@ -1,6 +1,9 @@
 <script lang="ts">
-  import SaveChatButton from "$lib/components/SaveChatButton.svelte";
+  import SaveChatButton from "$components/saveEntryFromLLM/SaveChatButton.svelte";
   import { collectionData, currentMessages, chatHistory } from "$lib/store";
+  import { Button } from "$lib/components/ui/button";
+  import toast from "svelte-french-toast";
+
   import type { UserInputCollections } from "$lib/collection_schemas/user_input_collections.js";
   import { useChat } from "ai/svelte";
   const { handleSubmit, messages, input } = useChat();
@@ -41,7 +44,6 @@
   }
 </script>
 
-<h2 class="text-center mb-6 text-4xl">Work on Your Story</h2>
 <div class="chat-container">
   {#each $messages as message, i (message.id)}
     {#if i !== 0}
@@ -53,33 +55,28 @@
 </div>
 
 <div class="chat-utility flex justify-between my-2">
-  <button
-    class="bg-secondary-color text-white"
+  <Button
+    variant="outline"
     on:click={() => {
       console.log("clearing chat messages");
       $messages = [{ role: "user", content: JSON.stringify(selectedContextInfo) }];
-      console.log($messages);
-    }}
-    >Clear Chat
-  </button>
+      toast.success("cleared", {
+        style: "background: black;",
+      });
+    }}>Clear Chat</Button
+  >
+
   <SaveChatButton chatHistory={$messages} />
 </div>
 
-<div class="input">
+<div>
   <form on:submit={send}>
-    <textarea class="bg-secondary-color text-white text-xl rounded p-2 w-full" rows="3" bind:value={myInput} />
-    <button type="submit" disabled={myInput === ""}>Send</button>
+    <textarea class="bg-accent rounded p-2 w-full" rows="3" bind:value={myInput} />
+    <div class="flex justify-end"><Button type="submit" disabled={myInput === ""}>Send</Button></div>
   </form>
 </div>
 
 <style>
-  .input {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 100%;
-  }
-
   @keyframes dot {
     0%,
     20% {

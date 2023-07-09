@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher, onMount, afterUpdate, onDestroy } from "svelte";
+  import { Button } from "$lib/components/ui/button";
 
   const dispatch = createEventDispatcher();
   export let selectedButton = "";
@@ -30,40 +31,22 @@
 </script>
 
 <div class="flex justify-evenly gap-1 p-2" class:flex-col={flexCol}>
-  <button
-    class="bg-dominant-color"
-    class:selected={selectedButton === "long_description"}
-    on:click={() => selectButton("long_description")}
+  <Button
+    variant={selectedButton === "long_description" ? "default" : "outline"}
+    on:click={() => selectButton("long_description")}>Long</Button
   >
-    Long
-  </button>
 
-  <button
-    class="bg-dominant-color"
-    class:selected={selectedButton === "short_description"}
-    on:click={() => selectButton("short_description")}
+  <Button
+    variant={selectedButton === "short_description" ? "default" : "outline"}
+    on:click={() => selectButton("short_description")}>Short</Button
   >
-    Short
-  </button>
 
-  <button
-    class="whitespace-nowrap bg-dominant-color"
-    class:selected={selectedButton === "one_line_description"}
-    on:click={() => selectButton("one_line_description")}
+  <Button
+    variant={selectedButton === "one_line_description" ? "default" : "outline"}
+    class="whitespace-nowrap"
+    on:click={() => selectButton("one_line_description")}>1-line</Button
   >
-    1-line
-  </button>
 </div>
 
 <style>
-  .selected {
-    @apply bg-accent-color text-black;
-  }
-  button {
-    @apply text-white;
-  }
-
-  button:hover {
-    @apply text-black;
-  }
 </style>

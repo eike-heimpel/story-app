@@ -1,5 +1,7 @@
 <script lang="ts">
   import type { PageData } from "./$types";
+  import { Button } from "$lib/components/ui/button";
+  import { Input } from "$components/ui/input";
 
   export let data: PageData;
 
@@ -9,26 +11,18 @@
 <form method="POST" class="flex flex-col items-center space-y-2 w-full pt-4">
   <div class="w-full max-w-md">
     <label for="userName" class="block font-medium pb-1">
-      <span class="text-white">Username</span>
+      <span class="">Username</span>
     </label>
-    <input
-      type="text"
-      name="userName"
-      class="w-full max-w-md bg-white text-black my-2 rounded p-2 border border-gray-300"
-    />
+    <Input type="text" name="userName" />
   </div>
   <div class="w-full max-w-md">
     <label for="password" class="block font-medium pb-1">
-      <span class="text-white">Password</span>
+      <span class="">Password</span>
     </label>
-    <input
-      type="password"
-      name="password"
-      class="w-full max-w-md bg-white text-black my-2 rounded p-2 border border-gray-300"
-    />
+    <Input type="password" name="password" />
   </div>
 
   <div class="w-full max-w-md pt-2">
-    <button type="submit">Login</button>
+    <Button variant="outline">Log In</Button>
   </div>
 </form>

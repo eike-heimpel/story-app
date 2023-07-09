@@ -18,24 +18,28 @@
 <div class="generation mx-4 md:mx-8 lg:mx-16">
   <div class="collection-grid">
     <div>
-      <select
-        bind:value={selectedCollection}
-        class="w-full p-2 bg-dominant-color text-white rounded-md shadow text-center text-4xl"
-      >
-        {#each Object.keys(collections) as collectionName}
-          <option value={collectionName} class="bg-secondary-color">{collectionName}</option>
-        {/each}
-      </select>
+      <div class="flex justify-center">
+        <select
+          bind:value={selectedCollection}
+          class="bg-primary text-primary-foreground w-2/3 p-1 mb-4 rounded-md shadow text-center text-2xl"
+        >
+          {#each Object.keys(collections) as collectionName}
+            <option value={collectionName} class="bg-secondary">{collectionName}</option>
+          {/each}
+        </select>
+      </div>
       {#if selectedCollection}
         <CollectionList collectionParams={selectedCollectionParams} />
       {/if}
     </div>
   </div>
   <div>
-    <h2 class="text-3xl">Context</h2>
+    <h2 class="text-3xl mb-6">Context</h2>
     <ContextList />
   </div>
-  <div class="mt-8">
+  <div>
+    <h2 class="text-3xl mb-6">Work on Your Story</h2>
+
     <ChatWindow />
   </div>
 </div>

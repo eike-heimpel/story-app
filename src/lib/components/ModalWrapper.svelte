@@ -1,4 +1,6 @@
 <script>
+  import { Button } from "$lib/components/ui/button";
+
   export let showModal = false;
   export let closeFunction;
 
@@ -13,7 +15,7 @@
   <div class="fixed z-50 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
       <div
-        class="modal-background fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+        class="modal-background fixed inset-0 bg-gray-500 bg-opacity-60 transition-opacity"
         aria-hidden="true"
         on:click={maybeClose}
       />
@@ -23,6 +25,9 @@
       >
         <slot />
         <!-- Slot to allow passing in arbitrary content -->
+        <div class="bg-secondary pb-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          <Button type="button" on:click={() => closeFunction(true)}>Close</Button>
+        </div>
       </div>
     </div>
   </div>
