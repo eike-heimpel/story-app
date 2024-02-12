@@ -1,12 +1,13 @@
 <script lang="ts">
   export let id: string;
   export let label: string;
-  export let value = "";
+  export let type: string;
+
   export let placeholder = "";
-  export let type = "text";
   export let disabled = false;
   export let required = false;
-  console.log(type);
+
+  type = type === "integer" || type === "float" ? "number" : type;
 </script>
 
 <div class="form-control w-full max-w-lg mb-2">
@@ -22,7 +23,6 @@
       {disabled}
       {id}
       name={id}
-      {value}
     />
   {:else}
     <input
@@ -33,7 +33,6 @@
       {disabled}
       {id}
       name={id}
-      {value}
     />
   {/if}
 </div>

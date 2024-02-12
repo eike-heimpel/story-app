@@ -1,41 +1,28 @@
-import type { Writable } from "svelte/store";
-import {writable} from "svelte/store";
-import type { CollectionRecords, CharactersResponse, PlotsResponse, CollectionResponses } from "$lib/pocketbase-types";
-import  {Collections} from "$lib/pocketbase-types";
+import { writable, type Writable } from "svelte/store";
+import type { UserInputCollections } from "$lib//collection_schemas/user_input_collections";
+import { type InsertCollectionUnion, collections } from "$lib/collection_schemas";
 
-export const collectionResponseMap: Record<Collections, keyof CollectionResponses> = {
-  [Collections.Characters]: 'characters',
-  [Collections.Plots]: 'plots',
-  [Collections.PreviousChats]: "previous_chats",
-  [Collections.Users]: 'users',
-  [Collections.Test]: "test"
+type ContextInfo = {
+  inContext: boolean;
+  contextField: string;
 };
 
-export type CollectionDataUnion = CharactersResponse | PlotsResponse; // add new responses as they come along
-
-export type CollectionParam<T extends Collections> = {
-    collectionName: T,
-    headlineFields: (keyof CollectionRecords[T])[],
-    infoField: keyof CollectionRecords[T],
-
+type CollectionItem = {
+  contextInfo: {
+    inContext: boolean;
+    contextField: string;
+  };
+  data: InsertCollectionUnion;
 };
 
-export type CollectionPramUnion = CollectionParam<Collections.Characters> | CollectionParam<Collections.Plots>
+export type CollectionDataStore = Partial<Record<UserInputCollections, CollectionItem[]>>;
 
-export const collections: (CollectionParam<Collections.Characters> | CollectionParam<Collections.Plots>)[] = [
-  {
-      collectionName: Collections.Characters,
-      headlineFields: ["name", "age"],
-      infoField: "one_line_description"
-  },
-  {
-      collectionName: Collections.Plots,
-      headlineFields: ["name"],
-      infoField: "one_line_description"
-  },
-];
+const initialData: CollectionDataStore = Object.keys(collections).reduce((acc, key) => {
+  acc[key as UserInputCollections] = [];
+  return acc;
+}, {} as CollectionDataStore);
 
-export const websocket: Writable<WebSocket | null> = writable(null);
+export const collectionData: Writable<CollectionDataStore> = writable(initialData);
 
 interface Message {
   role: "user" | "assistant";
@@ -48,9 +35,6 @@ const initialChatHistory: ChatHistory = {};
 // Create the chatHistory store
 export const chatHistory = writable<ChatHistory>(initialChatHistory);
 
-export const selectedContextInfo = writable({
-  characters: {},
-  plots: {},
-});
+export const currentMessages = writable([]);
 
-export const currentMessages = writable([])
+export const loadingInfo = writable({ loading: false, message: "nothing is loading" });

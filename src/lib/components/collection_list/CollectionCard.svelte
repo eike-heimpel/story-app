@@ -1,30 +1,25 @@
 <script lang="ts">
-  import {
-    selectedContextInfo,
-    type CollectionDataUnion,
-    type CollectionParam,
-    type CollectionPramUnion,
-  } from "$lib/store";
+  import { collectionData } from "$lib/store";
+  import type { CollectionPramUnion, InsertCollectionUnion } from "$lib/collection_schemas";
+  import { fade } from "svelte/transition";
 
-  import type { Collections } from "$lib/pocketbase-types";
   import ContextButtons from "$lib/components/ContextButtons.svelte";
 
-  export let collectionEntry: CollectionDataUnion;
+  export let collectionEntry: InsertCollectionUnion;
   export let collectionParams: CollectionPramUnion;
   export let selectAll = "";
+  export let entryIndex: number;
+  export let selectedButton: keyof InsertCollectionUnion | "";
 
-  let selectedButton: keyof CollectionDataUnion | null = null;
   const handleButtonClick = (event: any) => {
     selectedButton = event.detail.descriptionType;
-
-    if (selectedButton !== null) {
-      const selectedContext = collectionEntry[selectedButton];
-      $selectedContextInfo[collectionParams.collectionName][collectionEntry.id] = selectedContext;
-    }
+    $collectionData[collectionParams.collectionName][entryIndex].contextInfo.contextField = selectedButton;
+    $collectionData[collectionParams.collectionName][entryIndex].contextInfo.inContext =
+      selectedButton === "" ? false : true;
   };
 </script>
 
-<div class="bg-secondary-color p-4 shadow rounded-lg flex">
+<div class="bg-secondary p-4 shadow rounded-lg flex justify-between" transition:fade>
   <div>
     <h3 class="text-left p-2 text-xl">
       {#each collectionParams.headlineFields as headlineField, index (headlineField)}
@@ -35,11 +30,11 @@
     </h3>
     <div class="row-span-2 block p-2">{collectionEntry[collectionParams.infoField]}</div>
   </div>
-  <ContextButtons on:buttonClick={handleButtonClick} selectedButton={selectAll} />
+  <ContextButtons on:buttonClick={handleButtonClick} selectedButton={selectAll === "" ? selectedButton : selectAll} />
 </div>
 
 <style>
   button {
-    @apply text-white;
+    @apply;
   }
 </style>

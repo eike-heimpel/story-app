@@ -1,19 +1,42 @@
 <script lang="ts">
-  import SaveChatButton from "$lib/components/SaveChatButton.svelte";
-  import { selectedContextInfo, currentMessages } from "$lib/store";
+  import SaveChatButton from "$components/saveEntryFromLLM/SaveChatButton.svelte";
+  import { collectionData, currentMessages, chatHistory } from "$lib/store";
+  import { Button } from "$lib/components/ui/button";
+  import toast from "svelte-french-toast";
+
+  import type { UserInputCollections } from "$lib/collection_schemas/user_input_collections.js";
   import { useChat } from "ai/svelte";
   const { handleSubmit, messages, input } = useChat();
 
+  type ContextItem = {
+    collection: UserInputCollections;
+    [contextField: string]: string;
+  };
+
+  let selectedContextInfo: ContextItem[];
+
+  $: {
+    selectedContextInfo = [];
+    for (let collection of Object.keys($collectionData)) {
+      for (let entry of $collectionData[collection]) {
+        if (entry.contextInfo && entry.contextInfo.inContext) {
+          let newEntry: ContextItem = { collection: collection as UserInputCollections };
+          newEntry[entry.contextInfo.contextField] = entry.data[entry.contextInfo.contextField];
+          selectedContextInfo.push(newEntry);
+        }
+      }
+    }
+  }
+
   export let generationSite = "";
   export let history = false;
-  export let myInput = "";
+  export let myInput = "Write a very very short description for a new character called Kamil";
 
   let firstSubmit = true;
-  let showContext = false;
 
   function send(e) {
     if (firstSubmit) {
-      $messages = [{ role: "user", content: JSON.stringify($selectedContextInfo) }]; // context becomes index 0, we will not display it to the user below
+      $messages = [{ role: "user", content: JSON.stringify(selectedContextInfo) }]; // context becomes index 0, we will not display it to the user below
       firstSubmit = false;
     }
     $input = myInput;
@@ -21,54 +44,39 @@
   }
 </script>
 
-<h2 class="text-center mb-6 text-4xl">Work on Your Story</h2>
 <div class="chat-container">
   {#each $messages as message, i (message.id)}
-    {#if i !== 0 || (i === 0 && showContext)}
+    {#if i !== 0}
       <div class="chat-bubble {message.role}">
-        <p>{message.content}</p>
+        <div class="whitespace-pre-wrap">{message.content}</div>
       </div>
     {/if}
   {/each}
 </div>
 
 <div class="chat-utility flex justify-between my-2">
-  <button
-    class="bg-secondary-color text-white"
+  <Button
+    variant="outline"
     on:click={() => {
-      $messages = [{ role: "user", content: JSON.stringify($selectedContextInfo) }];
-    }}
-    >Clear Chat
-  </button>
-  <button
-    class:toggled={showContext}
-    class="bg-secondary-color text-white"
-    on:click={() => (showContext = !showContext)}
+      console.log("clearing chat messages");
+      $messages = [{ role: "user", content: JSON.stringify(selectedContextInfo) }];
+      toast.success("cleared", {
+        style: "background: black;",
+      });
+    }}>Clear Chat</Button
   >
-    {#if showContext}
-      Hide Context
-    {:else}
-      Show Context
-    {/if}
-  </button>
-  <SaveChatButton infoToSave={{ messages: $messages, user: "test" }} />
+
+  <SaveChatButton chatHistory={$messages} />
 </div>
 
-<div class="input">
+<div>
   <form on:submit={send}>
-    <textarea class="bg-secondary-color text-white text-xl rounded p-2 w-full" rows="3" bind:value={myInput} />
-    <button type="submit" disabled={myInput === ""}>Send</button>
+    <textarea class="bg-accent rounded p-2 w-full" rows="3" bind:value={myInput} />
+    <div class="flex justify-end"><Button type="submit" disabled={myInput === ""}>Send</Button></div>
   </form>
 </div>
 
 <style>
-  .input {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 100%;
-  }
-
   @keyframes dot {
     0%,
     20% {
@@ -107,13 +115,13 @@
 
   .user,
   .assistant {
-    @apply bg-white text-black my-2 max-w-md rounded p-2;
+    @apply my-2 max-w-md rounded bg-white p-2 text-black;
   }
   .user {
     @apply ml-2 mr-auto;
   }
 
   .assistant {
-    @apply mr-2 ml-auto;
+    @apply ml-auto mr-2;
   }
 </style>
